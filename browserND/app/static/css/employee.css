@@ -1,0 +1,390 @@
+/*########################### INITIAL STATE #############################################*/
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    /*--initial-video-width: 480px;*/
+    /*--initial-video-height: 360px;*/
+    --video-width: 800px;
+    --video-height: 600px;
+}
+
+.logo {
+    margin-top: 4%;
+}
+
+#jpeg_base64, #video, #canvas, #take_photo,
+#upload_photo, #cancelChange, #saveInfo, #submit, #dropChange {
+    display: none;
+}
+
+.employees {
+    display: block;
+    width: 13%;
+    min-width: 125px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: -3%;
+    cursor: pointer;
+}
+
+.info {
+    width: 100%;
+    /*padding: 0 .5%;*/
+    min-height: 440px;
+    /*display: flex;*/
+    /*justify-content: space-around;*/
+}
+
+.info2 {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 15px;
+}
+
+
+.employee-table {
+    overflow-y: scroll;
+    max-width: 50%;
+    height: 520px;
+    margin: 2% 0;
+}
+
+table {
+    display: table;
+    border: 1px solid rgba(227, 221, 221, 0.27);
+    width: 100%;
+}
+
+tr th {
+    border: 1px solid rgba(227, 221, 221, 0.27);
+    padding: 10px 20px;
+    color: rgb(215, 206, 206);
+}
+
+tr td {
+    border: 1px solid rgba(227, 221, 221, 0.27);
+    padding: 10px 20px;
+    color: rgb(170, 170, 170);
+}
+
+.empty {
+    text-align: center;
+}
+
+.emp_info {
+    display: block;
+    /*width: 100%;*/
+    max-width: 550px;
+    min-width: 200px;
+    margin: 0;
+    float: left;
+    border: 5px solid rgba(227, 221, 221, 0.27);
+    border-radius: 20px;
+    padding: 10px;
+    height: 10%;
+}
+
+.emp_photo {
+    width: 100%;
+    max-width: 330px;
+    display: block;
+    margin-left: 6%;
+    border-radius: 20%;
+    border: 1px solid #e6dede;
+    height: 315px;
+
+}
+
+
+.emp_photo img {
+    width: 100%;
+    max-width: 580px;
+    border-radius: 20%;
+}
+
+.emp_info input[type="text"], .emp_info input[type="date"], textarea {
+    display: block;
+    width: 100%;
+    min-width: 200px;
+    padding-left: 10px;
+    border-color: rgb(123, 116, 115);
+    outline: none;
+}
+
+textarea {
+    background-color: rgb(82, 75, 74);
+    border: 2px solid rgb(123, 116, 115);
+    border-radius: 10px;
+    resize: none;
+    color: rgb(170, 170, 170);
+    font-size: 1.2rem;
+    height: 55px !important;
+}
+
+.emp_info input[type="submit"], .emp_info input[type="button"] {
+    min-width: 60px;
+    width: 169px;
+    margin-top: 15px;
+    font-size: 14px;
+    padding: 8px;
+}
+
+@media screen and (min-width: 300px) {
+    .emp_info input[type="submit"], .emp_info input[type="button"] {
+        width: 100%;
+    }
+
+    .emp-photo {
+        display: block;
+        width: 100%;
+    }
+
+    .employee-table {
+        display: block;
+        width: 100%;
+    }
+
+    .emp_photo img {
+        height: 100%;
+    }
+
+    .emp_info {
+        display: block;
+        width: 100%;
+        max-width: 550px;
+        min-width: 200px;
+        margin: 0;
+        float: left;
+        border: 5px solid rgba(227, 221, 221, 0.27);
+        border-radius: 20px;
+        padding: 10px;
+        height: 10%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    .emp_photo img {
+        height: 100%;
+    }
+
+    .emp_info input[type="submit"], .emp_info input[type="button"] {
+        min-width: 60px;
+        width: 169px;
+        margin-top: 15px;
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .emp_photo img {
+        width: 100%;
+        max-width: 580px;
+        /*height: 89%;*/
+        border-radius: 4px;
+    }
+
+}
+
+
+.emp_info input[type="file"] {
+    display: none;
+}
+
+.emp_info label {
+    margin-bottom: 2px;
+    padding: 0;
+    font-size: 1.1em;
+    color: rgb(215, 206, 206);
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.emp_photo label[for="upload_photo"] {
+    display: none;
+}
+
+#video {
+    border-radius: 10px;
+    /*margin-top: 10px;*/
+}
+
+.full-div {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+
+/* wrapper class uchun ochildi */
+
+
+.wrapper {
+    width: 390px;
+    padding: 0;
+    display: inline-block;
+    float: right;
+    margin-left: 40%;
+    /*margin-top: -335px;*/
+
+}
+
+.logs {
+    width: 100%;
+    height: 100%;
+}
+
+.form .label {
+    margin-bottom: 2px;
+    padding: 0 4px;
+    font-size: 1.1em;
+    float: left;
+    color: rgb(215, 206, 206);
+    font-weight: 600;
+}
+
+.form .date {
+    margin-bottom: 10px;
+    width: 20em;
+    display: block;
+    margin-right: 0;
+    line-height: 40px;
+    padding-left: 10px;
+
+}
+
+/*form input[type="checkbox"],*/
+/*form label[for="select_all"] {*/
+/*    display: inline-block;*/
+/*}*/
+
+.form .submit {
+    margin-left: 32%;
+    width: 9em;
+    line-height: 37px;
+    color: rgb(170, 170, 170);
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.form .check-div {
+    width: 100%;
+    height: 50px;
+    padding: 15px 0 15px 0;
+    margin-left: 10%;
+}
+
+.form .check-div input[type="radio"] {
+    float: left;
+    margin-top: 8px;
+    margin-left: 11px;
+}
+
+.form .check-div label {
+    margin-bottom: 2px;
+    padding: 0 10px;
+    font-size: 1.1em;
+    float: left;
+    color: rgb(170, 170, 170);
+}
+
+/* wrapper class uchun yopildi */
+
+
+/* ########################### CHANGE STATE ############################################# */
+
+#video {
+    /*margin: 20px auto;*/
+    width: 100% !important;
+    height: auto !important;
+}
+
+.change_info {
+    padding: 0;
+    margin: 2% auto;
+    width: 70%;
+}
+
+.change_emp_info {
+    width: 45%;
+    margin: 2% 0;
+    padding: 1%;
+    border: 5px solid rgba(227, 221, 221, 0.27);
+    border-radius: 2%;
+}
+
+.change_emp_info > form * {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 15px;
+    height: 44px;
+}
+
+.change_emp_info label {
+    display: inline-block;
+    margin-bottom: 2px;
+    padding: 0;
+    font-size: 1.1em;
+    color: rgb(215, 206, 206);
+}
+
+.change_emp_info input[type="text"], .change_emp_info input[type="date"] {
+    margin-bottom: 15px;
+    width: 100%;
+    padding-left: 10px;
+    height: 44px;
+    border: 2px solid rgb(123, 116, 115);
+}
+
+.change_emp_info input[type="submit"] {
+    margin-top: 20px;
+}
+
+.change_emp_photo {
+    width: 55%;
+    float: left;
+    margin: 3% 1.5%;
+    height: auto;
+}
+
+.change_emp_photo > img {
+    width: 100%;
+    margin-bottom: 20px;
+    border: 3px solid #0f0202;
+    border-radius: 10px!important;
+}
+
+.photo_buttons {
+    display: flex!important;
+    justify-content: center!important;
+    align-items: center!important;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 5%;
+}
+
+.photo_buttons input[type="button"] {
+    min-width: 180px;
+    border-radius: 10px;
+}
+
+.photo_buttons label[for="upload_photo"] {
+    display: none;
+    width: 20%;
+    min-width: 180px;
+    padding: 5px 10px;
+    /*margin-top: 10px;*/
+    border-radius: 10px;
+    background-color: rgba(53, 53, 53, 0.945);
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    margin: 1%;
+}

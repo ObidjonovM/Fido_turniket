@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{{ super() }}
+
+<link rel="stylesheet" type="text/css" href="static/css/remove_user.css">
+
+{% endblock %}
+
+{% block body %}
+
+{{ super() }}
+<form method="POST">
+    <label for="username">Пользователь</label>
+    <select name="username">
+        {% for user in users %}
+        <option value="{{user.username}}">{{user.username}}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Удалить">
+</form>
+<script>
+    const submit = document.querySelector('input[type="submit"]')
+    submit.addEventListener("click", ev => {
+    if (!confirm("Данный пользователь будет удален из системы. Продолжить?")) {
+            ev.preventDefault();
+        }
+    });
+</script>
+{% endblock %}

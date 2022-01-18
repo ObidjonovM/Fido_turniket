@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{{ super() }}
+
+<link rel="stylesheet" href="/static/css/employee_more_photos.css">
+
+{% endblock %}
+
+{% block body %}
+
+{{ super() }}
+
+<a href="{{url_for('view.all_employees')}}" class="employees">Сотрудники</a>
+
+<label for="upload_photo">Добавить фото</label>
+<input type="file" id="upload_photo">
+<input type="button" id="add_photo" value="Сохранить">
+<input type="button" id="delete_photo" value="Удалить" onclick="deleteImg()">
+<input type="button" value="Добавить фотографии от лога" onclick="add_more_photos()">
+<div class="parent-block">
+    <div class="main-block" id="main_block">
+        <div>
+            <h3>Главное фото: </h3>
+            <img class="glav-attach" src="{{photos['main_photo']}}">
+        </div>
+        <div>
+            <p>{{photos['full_name']}}</p>
+            <img id="main_photo">
+        </div>
+    </div>
+    <div class="log-block" id="log_block">
+        <h3>Лог фото</h3>
+
+    </div>
+</div>
+<div id="other_photos" class="other-photos">
+    <h3>Допольнителное фото</h3>
+    {% if photos['status_code'] == 0 %}
+    {% for photo in photos['table_records'] %}
+    <img class="photo photo-other" id="img{{photo['id']}}" src="{{photo['photo']}}" onclick="setId(this)" />
+    {% endfor %}
+    {% endif %}
+</div>
+<canvas></canvas>
+
+<script src="/static/js/employee_more_photos.js"></script>
+
+{% endblock%}

@@ -1,0 +1,164 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+body {
+    margin: 0px;
+}
+
+.logo {
+    width: 70%;
+}
+
+.glav-attach {
+    height: 100%;
+    width: 100%;
+    border-radius: 1vh;
+}
+
+.main-photo {
+    text-align: center;
+    border-radius: 2vh;
+    padding: 5%;
+    background: linear-gradient(113.85deg, rgba(241, 248, 255, 0.7) 12.63%, rgba(199, 241, 255, 0.7) 116.02%);
+    box-shadow: 0px 6px 14px -6px rgba(24, 39, 75, 0.12), 0px 10px 32px -4px rgba(24, 39, 75, 0.1);
+}
+
+.div-camera {
+    margin: 12vh 3vw 4vh 0px;
+    background: linear-gradient(113.85deg, rgba(241, 248, 255, 0.9) 12.63%, rgba(199, 241, 255, 0.9) 116.02%);
+    box-shadow: 0px 6px 14px -6px rgba(24, 39, 75, 0.12), 0px 10px 32px -4px rgba(24, 39, 75, 0.1);
+    border-radius: 2vh;
+    text-align: center;
+}
+
+.inp, .out {
+    font-size: 2vw;
+}
+
+.emp-name img{
+    height: 2vw;
+}
+
+.emp-name {
+    margin: 0px 3vw 3vh 0px;
+    background: linear-gradient(113.85deg, #F1F8FF 12.63%, #C7F1FF 116.02%);
+    opacity: 0.7;
+    box-shadow: 0px 6px 14px -6px rgba(24, 39, 75, 0.12), 0px 10px 32px -4px rgba(24, 39, 75, 0.1);
+    border-radius: 2vh;
+    padding: 0.5vh 0px;
+}
+
+.div-cam {
+    display: inline-block;
+    width: 47%;
+    padding: 5% 2.5%;
+}
+
+
+.photo-cam {
+    width: 100%;
+    border-radius: 1vh;
+}
+
+#client_name {
+    position: absolute;
+    text-align: center;
+    color: #1f1919d2;
+    font-family: "Times New Roman", sans-serif;
+    font-style: italic;
+    font-weight: bold;
+    font-size: 5vw;
+    width: 100%;
+    top: 75vh;
+}
+
+#birthday {
+    position: relative;
+}
+
+#birthday img {
+    display: block;
+    width: 100%;
+    height: 100vh;
+}
+
+.shown {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+
+#name_in, #name_out {
+    text-align: left !important;
+    padding: 2%;
+    font-size: 2.5vw;
+    font-style: italic;
+}
+
+.logo {
+    width: 15vw;
+    margin-bottom: 3vh;
+}
+
+.row {
+    background: linear-gradient(107.98deg, #73ABED 3.85%, #D1D5DC 53.93%, #C7F5FF 100%);
+    display: flex;
+    height: 100vh;
+    align-items: center;
+}
+
+.column1 {
+    width: 39vw;
+    margin: 1vh 0px 3vh 3vw;
+}
+
+.column2 {
+    width: 61vw;
+    margin: 1vh 0px 3vh 3vw;
+}
+
+.indicators {
+    display: flex;
+    justify-content: space-between;
+}
+
+.indicators img {
+    width: 3.2vw;
+}
+
+.con-text {
+    font-size: 0.9vw;
+}
+
+.indicators div {
+    position: relative;
+    margin: 0px 1vw 3vh 0px;
+    display: inline-block;
+    text-align: center;
+    padding: 3%;
+    width: 100%;
+    background: linear-gradient(113.85deg, rgba(241, 248, 255, 0.9) 12.63%, rgba(199, 241, 255, 0.9) 116.02%);
+    box-shadow: 0px 6px 8px -6px rgba(24, 39, 75, 0.12), 0px 10px 16px -6px rgba(24, 39, 75, 0.08);
+    border-radius: 2vh;
+    font-size: 1.5vw;
+}
+
+.indicators div:last-child {
+    margin-right: 0px;
+    /* width: 13.53vw; */
+}
+
+.day-name {
+    font-size: 1vw;
+    position: absolute;
+    top: 0;
+    color: green;
+}
+
+.day-name-pz {
+    left: 1vw;
+}

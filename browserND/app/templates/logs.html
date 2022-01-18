@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{{ super() }}
+
+<link rel="stylesheet" href="static/css/logs.css">
+
+{% endblock %}
+
+
+{% block body %}
+
+{{ super() }}
+
+<div class="wrapper">
+    <div class="logs">
+        <form method="post">
+            <label for="start_date">Начало</label>
+            <input name="start_date" type="date" id="start_date" required onchange="compareStartDate(this)">
+
+            <label for="end_date">Конец</label>
+            <input name="end_date" type="date" id="end_date" required onchange="compareEndDate(this)">
+
+            <div>
+                <input type="radio" class="radiobtn" id="come_and_go" name="log_settings" value="0" checked="checked">
+                <label for="come_and_go">Приход/Уход сотрудников</label>
+            </div>
+
+            <div>
+                <input type="radio" class="radiobtn" id="all_in_out" name="log_settings" value="1">
+                <label for="all_in_out">Все входы и выходы в течении дня</label>
+            </div>
+            {% if main_user == True%}
+                <div>
+                    <input type="radio" class="radiobtn" id="all_records" name="log_settings" value="2">
+                    <label for="all_records">Показать все детали</label>
+                </div>
+            {% endif %}
+
+            <input type="submit" value="Получить">
+        </form>
+    </div>
+</div>
+
+<script>
+
+
+    const startDate = document.getElementsByName("start_date");
+    const endDate = document.getElementsByName("end_date");
+
+    function compareEndDate(e) {
+
+        if (startDate[0].value != "" && startDate[0].value > e.value) {
+            alert("Начало даты должно быть меньше конца даты.")
+            e.value = '';
+        }
+
+    }
+
+    function compareStartDate(e) {
+        var data = document.getElementById('start_date').value;
+        document.getElementById('end_date').value = data;
+
+        if (endDate[0].value != "" && endDate[0].value < e.value) {
+            alert("Начало даты должно быть меньше конца даты.")
+            e.value = '';
+        }
+    }
+</script>
+{% endblock %}

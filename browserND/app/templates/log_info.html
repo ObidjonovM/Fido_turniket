@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{{ super() }}
+<link rel="stylesheet" href="/static/css/log_info.css">
+
+{% endblock %}
+
+{% block body %}
+
+{{ super() }}
+<button class="results" onclick="window.history.go(-1)">Назад</button>
+<div class="info">
+    <div class="log_info">
+        <form id="user_info" name="user_info" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="custId" value="{{log.log_id}}">
+            <label for="log_id">Номер лога</label>
+            <input type="text" name="log_id" readonly value="{{log.log_id}}"/>
+            <label for="emp_id">Номер клиента</label>
+            <input type="text" name="emp_id" readonly value="{{log.emp_id}}"/>
+            <label for="name">Имя</label>
+            <input type="text" name="name" readonly value="{{name}}"/>
+            <label for="reg_date">Дата записи</label>
+            <input type="text" name="reg_date" readonly value="{{log.reg_time|get_date}}"/>
+            <label for="reg_time">Время записи</label>
+            <input type="text" name="reg_time" readonly value="{{log.reg_time|get_time}}"/>
+            <label for="descr">Описание</label>
+            <input type="text" name="descr" readonly value="{{log.descr}}"/>
+            <label for="action">Действие</label>
+            <input type="text" name="action" readonly value="{{log.action}}"/>
+            <br/>
+        </form>
+    </div>
+    <div class="log_photo">
+    <img src="{{photo}}" id="photo" alt="Employee's image" name="photo">
+    </div>
+</div>
+<script src="/static/js/employee.js"></script>
+
+{% endblock%}

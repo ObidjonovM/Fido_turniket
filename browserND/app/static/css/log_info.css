@@ -1,0 +1,67 @@
+:root {
+    --initial-video-width: 480px;
+    --initial-video-height: 360px;
+}
+
+
+.results {
+    display: inline-block;
+    width: 20%;
+    min-width: 200px;
+    text-align: center;
+    position: relative;
+    left: 40%;
+    margin-bottom: 30px;
+    background-color: rgba(53, 53, 53, 0.945);
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+
+.info {
+    width: 100%;
+    padding: 0 3%;
+    min-height: 440px;
+}
+
+.log_info, .log_photo {
+    display: inline-block;
+    width: 40%;
+    min-width: 400px;
+    margin: 20px;
+}
+
+.log_info { 
+    float: left;
+    border: 5px solid rgba(24, 22, 22, 0.267);  /* fix this*/
+    border-radius: 20px;
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+.log_photo {
+    float: right;
+}
+
+#photo {
+    width: 400px;
+    height: 450px;
+}
+
+.log_info input[type="text"], .emp_info input[type="date"] {
+    display: block;
+    width: 50%;
+    min-width: 200px;
+}
+
+.emp_info label {
+    margin-bottom: 2px;
+    padding: 0;
+    font-size: 1.1em;
+}
+
+.emp_photo > img {
+    width: var(--initial-video-width);
+    height: var(--initial-video-height);
+}

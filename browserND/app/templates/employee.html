@@ -1,0 +1,275 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{{ super() }}
+<link rel="stylesheet" href="/static/css/employee.css">
+
+{% endblock %}
+
+{% block body %}
+
+{{ super() }}
+
+<a href="{{url_for('view.all_employees')}}" class="employees">Сотрудники</a>
+
+<div class="info">
+<div class="full-div" style="display: flex; justify-content: flex-start; align-items: center;">
+    <div class="emp_photo">
+        <img src="{{emp_info['photo']}}" style="border-radius: 20%;" id="photo" alt="Employee's image"
+             name="photo">
+        <video id="video">Video stream not available</video>
+        <div class="photo_buttons">
+            <input type="button" id="take_photo" value="Фотографировать">
+            <label for="upload_photo">Выберите файл</label>
+        </div>
+        <input type="file" name="upload_photo" id="upload_photo">
+        <canvas id="canvas"></canvas>
+    </div>
+
+    <div class="wrapper">
+        <div class="logs">
+            <div class="form">
+                <label for="start_date" class="label">Начало</label>
+                <input name="start_date" class="date" type="date" id="start_date" required
+                       onchange="compareStartDate(this)">
+
+                <label for="end_date" class="label">Конец</label>
+                <input name="end_date" class="date" type="date" id="end_date" required onchange="compareEndDate(this)">
+
+                <div class="check-div">
+                    <input type="radio" class="radiobtn" id="come_and_go" name="log_settings" value="0"
+                           checked="checked">
+                    <label for="come_and_go">Приход/Уход сотрудника</label>
+                </div>
+
+                <div class="check-div">
+                    <input type="radio" class="radiobtn" id="all_in_out" name="log_settings" value="1">
+                    <label for="all_in_out">Все входы и выходы в течении дня</label>
+                </div>
+
+                <input type="button" class="submit" value="Получить" onclick="employeeData()">
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="info2">
+        <div class="emp_info">
+            <form id="user_info" name="user_info" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="custId" value="{{emp_info['id']}}">
+                <label for="fname">Имя</label>
+                <input type="text" name="fname" readonly value="{{emp_info['fullname']['fname']}}"/>
+                <label for="mname">Отчество</label>
+                <input type="text" name="mname" readonly value="{{emp_info['fullname']['mname']}}"/>
+                <label for="lname">Фамилия</label>
+                <input type="text" name="lname" readonly value="{{emp_info['fullname']['lname']}}"/>
+                <label for="birthDate">Дата Рождение</label>
+                <input type="date" name="birthDate" readonly value="{{emp_info['birthDate']}}"/>
+                <label for="dept">Отдел</label>
+                <textarea type="text" name="dept" readonly>{{emp_info['dept']}} </textarea>
+                <label for="job">Должность</label>
+                <input type="text" name="job" readonly value="{{emp_info['job']}}"/>
+                <input type="text" name="jpeg_base64" id="jpeg_base64" value="{{emp_info['photo']}}">
+                {% if main_user == True %}
+                    <input type="button" id="changeInfo" value="Изменить"/>
+                    <input type="submit" id="removeEmployee" name="remove" value="Удалить">
+                    <input type="button" id="otherPhotos"
+                       name="otherPhotos" value="Другие фотографии" {{url_for('view.index')}}
+                        onclick="window.location.href = window.location.origin + '/more_emp_photos/' + {{emp_info['id']}};">
+                    <input type="button" id="saveInfo" value="Сохранить"/>
+                    <input type="button" id="cancelChange" value="Отменить"/>
+                    <input type="submit" id="submit" name="update" value="Отправить Изменения"/>
+                    <input type="button" id="dropChange" value="Сбросить изменения"/>
+                {% endif %}
+            </form>
+        </div>
+
+        <div class="employee-table" id="employee_table">
+            <table id="table">
+                <tr id="employee_tr1">
+                    <th>№</th>
+                    <th>Время прихода</th>
+                    <th>Время ухода</th>
+                    <th>Общее время</th>
+                    <th>normative</th>
+                </tr>
+
+                {% for i in range(emp_info['weekly_logs']|length) %}
+
+                <tr id="employee_tr">
+                    <td>{{i+1}}</td>
+                    {%if emp_info['weekly_logs'] == [{}] %}
+                    <td class="empty">-</td>
+                    {%else%}
+                    <td>
+                        {{emp_info['weekly_logs'][i]['time_in'][0]|get_date}}
+                        {{emp_info['weekly_logs'][i]['time_in'][0]|get_time}}
+                    </td>
+                    {%endif%}
+
+                    {%if emp_info['weekly_logs'] == [{}] %}
+                    <td class="empty">-</td>
+                    {%else%}
+                    <td>
+                        {{emp_info['weekly_logs'][i]['time_out'][0]|get_date}}
+                        {{emp_info['weekly_logs'][i]['time_out'][0]|get_time}}
+                    </td>
+                    {%endif%}
+
+                    {%if emp_info['weekly_logs'] == [{}] %}
+                    <td class="empty">-</td>
+                    {%else%}
+                    <td>{{emp_info['weekly_logs'][i]['formatted_time']}}</td>
+                    {%endif%}
+
+                    {%if emp_info['weekly_logs'] == [{}] %}
+                    <td class="empty">-</td>
+                    {%else%}
+                    <td>{{emp_info['weekly_logs'][i]['normative']}}</td>
+                    {%endif%}
+                </tr>
+
+
+                {%endfor%}
+
+            </table>
+        </div>
+    </div>
+
+</div>
+<script>
+    const startDate = document.getElementById("start_date");
+    const endDate = document.getElementById("end_date");
+
+
+    function compareEndDate(e) {
+
+        if (startDate.value != "" && startDate.value > e.value) {
+            alert("Начало даты должно быть меньше конца даты.")
+            e.value = '';
+        }
+
+    }
+
+    function compareStartDate(e) {
+        var data = document.getElementById('start_date').value;
+        document.getElementById('end_date').value = data;
+
+        if (endDate.value != "" && endDate.value < e.value) {
+            alert("Начало даты должно быть меньше конца даты.")
+            e.value = '';
+        }
+    }
+
+
+    let xhttp = new XMLHttpRequest();
+    let url = window.location.href;
+    let emp_id = url.substring(url.lastIndexOf('/') + 1);
+    var table = document.createElement('TABLE');
+    var employee_table = document.getElementById('employee_table');
+    employee_table.appendChild(table);
+
+    function addZero(e) {
+        let result = ""
+        if (e.length < 2) {
+            result = "0" + e
+        }else {
+            result = e
+        }
+        return result
+    }
+
+    function employeeData() {
+        document.getElementById('table').style.display = 'none';
+        const log_settings = document.querySelector('input[name="log_settings"]:checked');
+        const monthName = {'Jan': '01','Feb' : '02', 'Mart' : '03',
+                            'Apr' : '04', 'May' : '05', 'Jun' : '06',
+                            'Jul' : '07', 'Aug' : '08', 'Sep' : '09',
+                            'Oct': '10', 'Nov' : '11', 'Dec' : '12'};
+
+        xhttp.open("POST", "/employee/" + emp_id, true);
+        xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
+        xhttp.send(JSON.stringify({
+            'start_date': startDate.value,
+            'end_date': endDate.value,
+            'log_settings': log_settings.value
+        }));
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                const resp = JSON.parse(this.responseText);
+
+                if (resp['filos']) {
+                    employee_table.style.maxWidth = '800px';
+                    var row = `<tr>
+                                    <th>№</th>
+                                    <th>Время прихода</th>
+                                    <th>Время ухода</th>
+                                    <th>Общее время в офисе</th>
+                                    <th>Total time</th>
+                                    <th>Normative</th>
+                                    </tr>`
+                    table.innerHTML = row;
+                    for (let i = 0; i < resp['filos'].length; i++) {
+                        if (resp['filos'][i]) {
+                            let time_in = resp['filos'][i]['time_in'][0];
+                            let time_out = resp['filos'][i]['time_out'][0];
+                            console.log(time_in);
+                            console.log(time_out);
+                            let month = time_in.substring(time_in.indexOf(" ", 5) + 1, time_in.indexOf(" ", 9));
+                            let day = time_in.substring(time_in.indexOf(" ") + 1, time_in.indexOf(" ", 5));
+                            let year = time_in.substring(time_in.indexOf(" ", 9) + 1, time_in.indexOf(" ", 14));
+                            let hours = time_in.substring(time_in.indexOf(" ", 14) + 1, time_in.indexOf(" ", 22));
+
+                            let month1 = time_out.substring(time_out.indexOf(" ", 5) + 1, time_out.indexOf(" ", 9));
+                            let day1 = time_out.substring(time_out.indexOf(" ") + 1, time_out.indexOf(" ", 5));
+                            let year1 = time_out.substring(time_out.indexOf(" ", 9) + 1, time_out.indexOf(" ", 14));
+                            let hours1 = time_out.substring(time_out.indexOf(" ", 14) + 1, time_out.indexOf(" ", 22));
+
+                            var row = `<tr>
+                                        <td>${i + 1}</td>
+                                        <td>${addZero(year)+"-" + monthName[month] + "-" + addZero(day) + " " + addZero(hours) }</td>
+                                        <td>${addZero(year1)+"-" + monthName[month1] + "-" + addZero(day1) + " " + addZero(hours1)}</td>
+                                        <td>${resp['filos'][i]['formatted_time']}</td>
+                                        <td>${resp['filos'][i]['total_time']}</td>
+                                        <td>${resp['filos'][i]['normative']}</td>
+                                        </tr>`
+                            table.innerHTML += row
+                        }
+                    }
+                }
+
+                if (resp['inouts']) {
+                    employee_table.style.maxWidth = '454px';
+                    var row = `<tr>
+                                    <th>№</th>
+                                    <th>Время</th>
+                                    <th>Действия</th>
+                                    <th>Лог ID</th>
+                                    </tr>`
+                    table.innerHTML = row;
+
+                    for (let i = 0; i < resp['inouts']['inouts'].length; i++) {
+                        let time = resp['inouts']['inouts'][i][0];
+
+                        let month = time.substring(time.indexOf(" ", 5) + 1, time.indexOf(" ", 9));
+                        let day = time.substring(time.indexOf(" ") + 1, time.indexOf(" ", 5));
+                        let year = time.substring(time.indexOf(" ", 9) + 1, time.indexOf(" ", 14));
+                        let hours = time.substring(time.indexOf(" ", 14) + 1, time.indexOf(" ", 22));
+
+                        var row = `<tr>
+                                    <td>${i + 1}</td>
+                                    <td>${addZero(year)+"-" + monthName[month] + "-" + addZero(day) + " " + addZero(hours)}</td>
+                                    <td>${resp['inouts']['inouts'][i][1]}</td>
+                                    <td>${resp['inouts']['inouts'][i][2]}</td>
+                                    </tr>`
+                        table.innerHTML += row
+                    }
+                }
+            }
+        }
+}
+
+</script>
+<script src="/static/js/employee.js"></script>
+
+{% endblock%}

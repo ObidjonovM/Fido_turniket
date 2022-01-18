@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="static/css/all_employee.css">
+{% endblock %}
+
+{% block body %}
+
+{{ super() }}
+
+<input type="search" id="myInput" placeholder="поиск..." class="search-input">
+
+<div class="employees_container">
+    <table id="dataTable">
+
+        <tr class="thead">
+            <th>№</th>
+            <th>
+                <button onclick="sortTable1()">
+                    <img src="../static/img/north_black_24dp.svg" class="img_sort">
+                    <img src="../static/img/south_black_24dp.svg" class="img_sort_open" style="display: none">
+                </button>
+                Ф.И.О
+            </th>
+            <th>
+                <button onclick="sortTable2()">
+                    <img src="../static/img/north_black_24dp.svg" class="img_sort1">
+                    <img src="../static/img/south_black_24dp.svg" class="img_sort_open1" style="display: none">
+                </button>
+                Отдел
+            </th>
+            <th>
+                <button onclick="sortTable3()">
+                    <img src="../static/img/north_black_24dp.svg" class="img_sort2">
+                    <img src="../static/img/south_black_24dp.svg" class="img_sort_open2" style="display: none">
+                </button>
+                Должность
+            </th>
+            <th style="min-width: 130px">
+                <button onclick="sortTable4()">
+                    <img src="../static/img/north_black_24dp.svg" class="img_sort2">
+                    <img src="../static/img/south_black_24dp.svg" class="img_sort_open2" style="display: none">
+                </button>
+                В офисе
+            </th>
+        </tr>
+
+        {% for employee in range(employees|length) %}
+        <tr class="tr">
+            <td>{{employee+1}}</td>
+            <td>
+                <a href="{{url_for('view.employee', emp_id=employees[employee][0])}}" style="text-align: left">
+                    {{employees[employee][1]}}
+                </a>
+            </td>
+            <td>
+                <a href="{{url_for('view.employee', emp_id=employees[employee][0])}}">
+                    {{employees[employee][2]}}
+                </a>
+            </td>
+            <td>
+                <a href="{{url_for('view.employee', emp_id=employees[employee][0])}}">
+                    {{employees[employee][3]}}
+                </a>
+            </td>
+            {% if employees[employee][0] in in_office %}
+            {% if in_office[employees[employee][0]] == 'in'%}
+            <td>
+                <a href="{{url_for('view.employee', emp_id=employees[employee][0])}}">
+                    Да
+                </a>
+            </td>
+            {% else %}
+            <td>
+                <a href="{{url_for('view.employee', emp_id=employees[employee][0])}}">
+                    Нет
+                </a>
+            </td>
+            {% endif %}
+            {% else %}
+            <td>
+                <a href="{{url_for('view.employee', emp_id=employees[employee][0])}}">
+                    Нет
+                </a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+
+    </table>
+</div>
+
+<script>
+    // SEARCH INPUT OPEN
+    document.getElementById('myInput').addEventListener('keyup', function () {
+        var input, filter, table, tr, td, i, j, cellValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("dataTable");
+        tr = table.getElementsByTagName("tr");
+        for (i = 0; i < tr.length; i++) {
+            td = tr[i].getElementsByTagName("td");
+            if (td) {
+                for (j = 0; j < td.length; j++) {
+                    cellValue = td[j].textContent || td[j].innerText;
+                    if (cellValue.trim().toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                        break;
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    })
+
+
+    // scrol images ni bosganda display none va block bo'lishi
+    function sortTable1() {
+        if (document.querySelector('.img_sort').style.display !== 'none') {
+            document.querySelector('.img_sort').style.display = 'none';
+            document.querySelector('.img_sort_open').style.display = 'block';
+        } else {
+            document.querySelector('.img_sort').style.display = 'block';
+            document.querySelector('.img_sort_open').style.display = 'none';
+
+        }
+    }
+
+    function sortTable2() {
+        if (document.querySelector('.img_sort1').style.display !== 'none') {
+            document.querySelector('.img_sort1').style.display = 'none';
+            document.querySelector('.img_sort_open1').style.display = 'block';
+        } else {
+            document.querySelector('.img_sort1').style.display = 'block';
+            document.querySelector('.img_sort_open1').style.display = 'none';
+
+        }
+    }
+
+    function sortTable3() {
+        if (document.querySelector('.img_sort2').style.display !== 'none') {
+            document.querySelector('.img_sort2').style.display = 'none';
+            document.querySelector('.img_sort_open2').style.display = 'block';
+        } else {
+            document.querySelector('.img_sort2').style.display = 'block';
+            document.querySelector('.img_sort_open2').style.display = 'none';
+
+        }
+    }
+
+    function sortTable4() {
+        if (document.querySelector('.img_sort2').style.display !== 'none') {
+            document.querySelector('.img_sort2').style.display = 'none';
+            document.querySelector('.img_sort_open2').style.display = 'block';
+        } else {
+            document.querySelector('.img_sort2').style.display = 'block';
+            document.querySelector('.img_sort_open2').style.display = 'none';
+
+        }
+    }
+
+    // scrol images ni bosganda display none va block bo'lishi
+    // table da har bir col ustunni sortlash logikasi
+    const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
+
+    const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
+            v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+    )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
+
+    document.querySelectorAll('th').forEach(th => th.children[0] ? th.children[0].addEventListener('click', (() => {
+        console.log(th.children[0])
+        const table = th.closest('table');
+        Array.from(table.querySelectorAll('tr:nth-child(n+2)'))
+            .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
+            .forEach(tr => table.appendChild(tr));
+    })) : '');
+    // table da har bir col ustunni sortlash logikasi
+</script>
+{% endblock %}

@@ -1,0 +1,91 @@
+#upload_photo, canvas {
+    display: none;
+}
+
+.parent-block {
+    display: flex;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.main-block, .log-block {
+    width: 50vw;
+}
+
+.main-block {
+    text-align: left;
+}
+
+.main-block div {
+    display: inline-block;
+    text-align: center;
+    color: white;
+}
+
+.log-block {
+    text-align: left;
+}
+
+.log-block h3 {
+    text-align: center;
+    color: white;
+}
+
+.employees {
+    display: block;
+    width: 20%;
+    min-width: 125px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 30px;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.main-photo {
+    width: 325px;
+    height: 366px;
+    border: 1px solid black;
+}
+
+.glav-attach {
+    width: 325px;
+    height: 366px;
+    border: 5px solid rgb(52, 16, 150);
+}
+
+.logo {
+    margin-bottom: 0px;
+    margin-top: 5%;
+}
+
+label[for="upload_photo"] {
+    text-align: center;
+    min-width: 180px;
+    padding: 5px 10px;
+    margin-top: 10px;
+    border-radius: 10px;
+    background-color: rgba(53, 53, 53, 0.945);
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+}
+
+.photo-other {
+    padding: 4px;
+    width: 132px;
+    height: 149px;
+}
+
+.other-photos {
+    color: white;
+    width: 40vw;
+}
+
+.selected {
+    cursor: pointer;
+    padding: 0px;
+    width: 140px;
+    height: 157px;
+    border: 3px solid black;
+}

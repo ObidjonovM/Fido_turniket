@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{{ super() }}
+
+<link rel="stylesheet" href="static/css/view_logs.css">
+<script src="static/js/jquery-3.5.1.min.js"></script>
+
+{% endblock %}
+
+{% block body %}
+
+{{ super() }}
+
+<input type="button" id="btnExportToCsv" value="Получить в CSV">
+
+{% if main_user == True %}
+    <div class="container-all-logs">Всего: <span id="allLogs" class="all-logs">0</span> логов</div>
+    <div class="container-all-logs">Не отмеченные записи: <span id="allNoChecked" class="all-logs">0</span></div>
+    <div class="container-all-logs">Правильно распознанные лица: <span id="percentAcc" class="all-logs">0%</span></div>
+
+    <div class="center-radio">
+        <input type="radio" id="all" name="desc-entr" value="all" checked>
+        <label for="all">all</label>
+
+        <input type="radio" id="unknownface" name="desc-entr" value="unknown face" style="margin-left: 10px">
+        <label for="unknownface">unknown face</label>
+
+        <input type="radio" id="corruptedimage" name="desc-entr" value="corrupted image" style="margin-left: 10px">
+        <label for="corruptedimage">corrupted image</label>
+
+        <input type="radio" id="noface" name="desc-entr" value="no face" style="margin-left: 10px">
+        <label for="noface">no face</label>
+    </div>
+{% endif %}
+
+<div class="table_wrapper">
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Дата</th>
+                <th>Время</th>
+                <th>Имя</th>
+                <th>Описание</th>
+                <th>Действия</th>
+                <th>Лог ID</th>
+                <th class="hidden">Оценка</th>
+                <th class="hidden">Вх. рас.</th>
+                <th class="hidden">Вых. рас.</th>
+                <th class="hidden">Лиц. рас.</th>
+                <th class="hidden">Лиц. кор.</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td>{{log.reg_time|get_date}}</td>
+                <td>{{log.reg_time|get_time}}</td>
+                <td style="text-align: left">{{log.name}}</td>
+                <td class="descrip">{{log.descr}}</td>
+                <td>{{log.action}}</td>
+                <td class="logButTd"><button id="id{{log.log_id}}" class="logref" emp_id="{{log.emp_id}}"
+                        onclick="getLogAndRegPhoto(this)" onkeydown="keyUpDown(event)">{{log.log_id}}</button></td>
+                <td class="hidden label_as_td">{{log.label_as}}</td>
+                <td class="hidden dist_in_td">{{log.dist_in}}</td>
+                <td class="hidden dist_out_td">{{log.dist_out}}</td>
+                <td class="hidden face_dist_td">{{log.face_dist}}</td>
+                <td class="hidden face_coors_td">{{log.face_coors}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="container-img" id="container_img">
+        <div class="desc-img" id="log_id"></div>
+        <div id="container_reg_photo">
+            <div class="desc-img">Оригинал фото</div>
+            <img id="original_img" src="" alt="original photo">
+        </div>
+        <div class="desc-img">Лог фото</div>
+        <img id="log_img" src="" alt="log photo">
+        <div id="label_as" class="hidden"></div>
+        {% if main_user == True %}
+            <div id="dist_in"></div>
+            <div id="dist_out"></div>
+            <div id="face_dist"></div>
+            <div id="face_coors"></div>
+            <div id="mark_container"><label for="okey">Правильно</label>
+                <input id="okey" type="radio" name="mark" value="CORRECT" onclick="updateLabel(this)"><br>
+                <label for="no">Неправильно</label>
+                <input id="no" type="radio" name="mark" value="WRONG" onclick="updateLabel(this)">
+                <input type="text" id="correct_id" placeholder="Введите ID сотрудника">
+                <input type="button" onclick="updateClientID()" value="Исправить">
+            </div>
+        {% endif %}
+    </div>
+</div>
+<script src="/static/js/view_logs.js"></script>
+<script src="static/js/get_csv.js"></script>
+
+<script>
+    const dataTable = document.getElementById("dataTable");
+    const btnExportToCsv = document.getElementById("btnExportToCsv");
+
+    btnExportToCsv.addEventListener("click", () => {
+        const exporter = new TableCSVExporter(dataTable);
+        const csvOutput = exporter.convertToCSV();
+        const csvBlob = new Blob([csvOutput], {
+            type: "text/csv"
+        });
+        const blobUrl = URL.createObjectURL(csvBlob);
+        const anchorElement = document.createElement("a");
+
+        anchorElement.href = blobUrl;
+        anchorElement.download = "logs.csv";
+        anchorElement.click();
+
+        setTimeout(() => {
+            URL.revokeObjectURL(blobUrl);
+        }, 500);
+    });
+</script>
+
+{% endblock %}

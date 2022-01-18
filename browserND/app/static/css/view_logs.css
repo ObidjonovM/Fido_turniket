@@ -1,0 +1,102 @@
+input[type="button"] {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: 10px;
+    padding: 10px 20px;
+}
+.hidden {
+    display: none;
+}
+
+.container-all-logs{
+    text-align: center;
+    font-size: large;
+    color: #bcbcc6;
+}
+
+.all-logs {
+    color: white;
+    font-weight: bold;
+}
+
+.table_wrapper {
+    text-align: center;
+}
+
+.container-img {
+    font-size: large;
+    display: none;
+    position: fixed;
+    top: 7%;
+}
+
+#dataTable {
+    display: inline-block;
+    margin-top: 5px;
+}
+
+#dataTable td, th {
+    border: 1px solid #aeaaaa;
+    padding: 5px;
+    text-align: center;
+}
+
+#dataTable th {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #eae5e5;
+}
+
+#dataTable td {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #bcbcc6;
+}
+
+.logref {
+    /* color: white; */
+    background-color: transparent;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 10px;
+}
+
+.logref:hover {
+    /* color: rgb(207, 198, 198); */
+    text-decoration: none;
+}
+
+.no-checked {
+    color: white !important;
+}
+
+.correct {
+    color: black !important;
+}
+
+.wrong {
+    color: red !important;
+}
+
+.center-radio {
+    text-align: center;
+    font-size: 1.5em;
+}
+
+img {
+    max-width: 48%;
+}
+
+.desc-img {
+    font-size: large;
+}
+
+label {
+    margin: 0;
+    line-height: normal;
+    color: #bcbcc6;
+}
+
+

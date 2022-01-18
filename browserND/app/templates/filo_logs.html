@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{{ super() }}
+
+<link rel="stylesheet" href="static/css/filo_logs.css">
+
+{% endblock %}
+
+{% block body %}
+
+{{ super() }}
+<input type="button" id="btnExportToCsv" value="Получить в CSV">
+
+<div class="table_wrapper">
+    <table id="dataTable">
+
+            <tr>
+            	<th>
+					<button onclick="imgOpen()">
+						<img src="../static/img/north_black_24dp.svg" class="img_sort">
+						<img src="../static/img/south_black_24dp.svg" class="img_sort_open" style="display: none">
+					</button>
+					Имя
+				</th>
+                <th>
+					<button onclick="imgOpen2()">
+						<img src="../static/img/north_black_24dp.svg" class="img_sort1">
+						<img src="../static/img/south_black_24dp.svg" class="img_sort_open1" style="display: none">
+					</button>
+					Время прихода
+				</th>
+                <th>
+					<button onclick="imgOpen3()">
+						<img src="../static/img/north_black_24dp.svg" class="img_sort2">
+						<img src="../static/img/south_black_24dp.svg" class="img_sort_open2" style="display: none">
+					</button>
+					Время ухода
+				</th>
+                <th>
+					<button onclick="imgOpen4()">
+						<img src="../static/img/north_black_24dp.svg" class="img_sort3">
+						<img src="../static/img/south_black_24dp.svg" class="img_sort_open3" style="display: none">
+					</button>
+					Общее время в офисе
+				</th>
+
+				<th style="display: none">
+					<button onclick="imgOpen5()">
+						<img src="../static/img/north_black_24dp.svg" class="img_sort4">
+						<img src="../static/img/south_black_24dp.svg" class="img_sort_open4" style="display: none">
+					</button>
+					Normative
+				</th>
+
+				<th >
+					<button onclick="imgOpen5()">
+						<img src="../static/img/north_black_24dp.svg" class="img_sort4">
+						<img src="../static/img/south_black_24dp.svg" class="img_sort_open4" style="display: none">
+					</button>
+					Normative
+				</th>
+            </tr>
+
+
+        	{% for log in logs %}
+        		<tr class="tr">
+        			<td style="text-align: left">{{log['name']}}</td>
+        			{% if log['time_in'] == '-' %}
+        			<td>-</td>
+        			{% else %}
+        			<td>{{log['time_in']|get_date}}&nbsp;{{log['time_in']|get_time}}</td>
+        			{% endif %}
+        			{% if log['time_out'] == '-' %}
+        			<td>-</td>
+        			{% else %}
+        			<td>{{log['time_out']|get_date}}&nbsp;{{log['time_out']|get_time}}</td>
+        			{% endif %}
+                    <td style="display: none;">{{log['total_time']}}</td>
+                    <td>{{log['formatted_time']}}</td>
+					<td style="display: none;">{{log['total_time']}}</td>
+                    <td>{{log['normative']}} %</td>
+
+        		</tr>
+        	{% endfor %}
+
+	</table>
+</div>
+
+<script src="/static/js/get_csv.js"></script>
+<script src="/static/js/filo_logs.js"></script>
+
+{% endblock %}

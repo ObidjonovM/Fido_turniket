@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block body %}
+{{ super() }}
+
+<div class="center">
+	{% if main_user == True %}
+    <a href="{{url_for('view.add_employee')}}">Добавить нового сотрудника</a>
+    <a href="{{ url_for('view.all_employees') }}">Сотрудники</a>
+    <a href="{{ url_for('view.logs') }}">Логи</a>
+    <a href="{{url_for('view.change_password')}}">Изменить пароль</a>
+    <a href="{{url_for('view.add_user')}}">Добавить пользователя</a>
+    <a href="{{url_for('view.remove_user')}}">Удалить пользователя</a>
+    <a href="{{url_for('view.entrance_new')}}">Вход в здание</a>
+    {% else %}
+    <a href="{{url_for('view.change_password')}}">Изменить пароль</a>
+    <a href="{{ url_for('view.all_employees') }}">Сотрудники</a>
+    <a href="{{ url_for('view.logs') }}">Логи</a>
+    <a href="{{url_for('view.entrance_new')}}">Вход в здание</a>
+    {% endif %}
+</div>
+
+{% endblock %}
