@@ -15,3 +15,5 @@ if not exists('logs'):
 
 accesslog = join('logs', 'access.log')
 errorlog = join('logs', 'error.log')
+
+# cmd to start (ONLY FOR THIS CASE!!!) : gunicorn 'run_server:start_app()' -c gunicorn.conf.py

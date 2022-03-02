@@ -23,3 +23,4 @@ if not exists('logs'):
 accesslog = join('logs', 'guni_access.log')
 errorlog = join('logs', 'errors_log.log')
 
+# cmd to start (ONLY FOR THIS CASE!!!) : gunicorn -c gunicorn.settings.py main:app

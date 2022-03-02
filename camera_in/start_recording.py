@@ -68,3 +68,5 @@ if __name__ == '__main__':
         except:
             action_logger.error(f"Error occured {exc_info()[0]} : {exc_info()[1]}")
             time.sleep(1)
+
+# cmd to start (ONLY FOR THIS CASE!!!) : python start_recording.py
