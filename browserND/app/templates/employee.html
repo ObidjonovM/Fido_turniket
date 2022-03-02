@@ -14,46 +14,45 @@
 <a href="{{url_for('view.all_employees')}}" class="employees">Сотрудники</a>
 
 <div class="info">
-<div class="full-div" style="display: flex; justify-content: flex-start; align-items: center;">
-    <div class="emp_photo">
-        <img src="{{emp_info['photo']}}" style="border-radius: 20%;" id="photo" alt="Employee's image"
-             name="photo">
-        <video id="video">Video stream not available</video>
-        <div class="photo_buttons">
-            <input type="button" id="take_photo" value="Фотографировать">
-            <label for="upload_photo">Выберите файл</label>
+    <div class="full-div" style="display: flex; justify-content: flex-start; align-items: center;">
+        <div class="emp_photo">
+            <img src="{{emp_info['photo']}}" style="border-radius: 20%;" id="photo" alt="Employee's image"
+                 name="photo">
+            <video id="video">Video stream not available</video>
+            <div class="photo_buttons">
+                <input type="button" id="take_photo" value="Фотографировать">
+                <label for="upload_photo">Выберите файл</label>
+            </div>
+            <input type="file" name="upload_photo" id="upload_photo">
+            <canvas id="canvas"></canvas>
         </div>
-        <input type="file" name="upload_photo" id="upload_photo">
-        <canvas id="canvas"></canvas>
-    </div>
 
-    <div class="wrapper">
-        <div class="logs">
-            <div class="form">
-                <label for="start_date" class="label">Начало</label>
-                <input name="start_date" class="date" type="date" id="start_date" required
-                       onchange="compareStartDate(this)">
+        <div class="wrapper">
+            <div class="logs">
+                <div class="form">
+                    <label for="start_date" class="label">Начало</label>
+                    <input name="start_date" class="date" type="date" id="start_date" required
+                           onchange="compareStartDate(this)">
 
-                <label for="end_date" class="label">Конец</label>
-                <input name="end_date" class="date" type="date" id="end_date" required onchange="compareEndDate(this)">
+                    <label for="end_date" class="label">Конец</label>
+                    <input name="end_date" class="date" type="date" id="end_date" required onchange="compareEndDate(this)">
 
-                <div class="check-div">
-                    <input type="radio" class="radiobtn" id="come_and_go" name="log_settings" value="0"
-                           checked="checked">
-                    <label for="come_and_go">Приход/Уход сотрудника</label>
+                    <div class="check-div">
+                        <input type="radio" class="radiobtn" id="come_and_go" name="log_settings" value="0"
+                               checked="checked">
+                        <label for="come_and_go">Приход/Уход сотрудника</label>
+                    </div>
+
+                    <div class="check-div">
+                        <input type="radio" class="radiobtn" id="all_in_out" name="log_settings" value="1">
+                        <label for="all_in_out">Все входы и выходы в течении дня</label>
+                    </div>
+
+                    <input type="button" class="submit" value="Получить" onclick="employeeData()">
                 </div>
-
-                <div class="check-div">
-                    <input type="radio" class="radiobtn" id="all_in_out" name="log_settings" value="1">
-                    <label for="all_in_out">Все входы и выходы в течении дня</label>
-                </div>
-
-                <input type="button" class="submit" value="Получить" onclick="employeeData()">
             </div>
         </div>
     </div>
-</div>
-
     <div class="info2">
         <div class="emp_info">
             <form id="user_info" name="user_info" method="post" enctype="multipart/form-data">
@@ -72,15 +71,15 @@
                 <input type="text" name="job" readonly value="{{emp_info['job']}}"/>
                 <input type="text" name="jpeg_base64" id="jpeg_base64" value="{{emp_info['photo']}}">
                 {% if main_user == True %}
-                    <input type="button" id="changeInfo" value="Изменить"/>
-                    <input type="submit" id="removeEmployee" name="remove" value="Удалить">
-                    <input type="button" id="otherPhotos"
+                <input type="button" id="changeInfo" value="Изменить"/>
+                <input type="submit" id="removeEmployee" name="remove" value="Удалить">
+                <input type="button" id="otherPhotos"
                        name="otherPhotos" value="Другие фотографии" {{url_for('view.index')}}
-                        onclick="window.location.href = window.location.origin + '/more_emp_photos/' + {{emp_info['id']}};">
-                    <input type="button" id="saveInfo" value="Сохранить"/>
-                    <input type="button" id="cancelChange" value="Отменить"/>
-                    <input type="submit" id="submit" name="update" value="Отправить Изменения"/>
-                    <input type="button" id="dropChange" value="Сбросить изменения"/>
+                onclick="window.location.href = window.location.origin + '/more_emp_photos/' + {{emp_info['id']}};">
+                <input type="button" id="saveInfo" value="Сохранить"/>
+                <input type="button" id="cancelChange" value="Отменить"/>
+                <input type="submit" id="submit" name="update" value="Отправить Изменения"/>
+                <input type="button" id="dropChange" value="Сбросить изменения"/>
                 {% endif %}
             </form>
         </div>
@@ -184,9 +183,9 @@
         document.getElementById('table').style.display = 'none';
         const log_settings = document.querySelector('input[name="log_settings"]:checked');
         const monthName = {'Jan': '01','Feb' : '02', 'Mar' : '03',
-                            'Apr' : '04', 'May' : '05', 'Jun' : '06',
-                            'Jul' : '07', 'Aug' : '08', 'Sep' : '09',
-                            'Oct': '10', 'Nov' : '11', 'Dec' : '12'};
+            'Apr' : '04', 'May' : '05', 'Jun' : '06',
+            'Jul' : '07', 'Aug' : '08', 'Sep' : '09',
+            'Oct': '10', 'Nov' : '11', 'Dec' : '12'};
 
         xhttp.open("POST", "/employee/" + emp_id, true);
         xhttp.setRequestHeader("Content-type", "application/json;charset=UTF-8");
@@ -268,7 +267,7 @@
                 }
             }
         }
-}
+    }
 
 </script>
 <script src="/static/js/employee.js"></script>
