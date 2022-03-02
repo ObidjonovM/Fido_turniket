@@ -45,8 +45,8 @@ if __name__ == "__main__":
         time.sleep(settings.measurement_delay)
         try:
             ent.catch_values()
-            print(f"Din = {ent.turnstile.distance_in}")
-            print(f"Dout = {ent.turnstile.distance_out}")
+            # print(f"Din = {ent.turnstile.distance_in}")
+            # print(f"Dout = {ent.turnstile.distance_out}")
             log_params = ent.take_action()
             ent.reset_values()
             if log_params != {}:

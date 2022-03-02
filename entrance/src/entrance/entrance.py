@@ -55,7 +55,7 @@ class Entrance:
             resp_body = self.__who_is_there(settings.face_in, self.cameras.photo_in, settings.thresh)
             params = self.__get_action_params(resp_body, self.cameras.photo_in, 'in')
             if params['action'] == 'in':
-                if params['emp_id'] != self.last_entered_id:   
+                if params['emp_id'] != self.last_entered_id and str(params['emp_id']) != '-1':   
                     self.turnstile.let_customer_in()
                     self.last_entered_id = params['emp_id']
                     self.last_entered_time = time()
@@ -72,9 +72,12 @@ class Entrance:
 
             resp_body = self.__who_is_there(settings.face_out, self.cameras.photo_out, settings.thresh)
             params = self.__get_action_params(resp_body, self.cameras.photo_out, 'out')
-            
+            print("params['emp_id']")
+            print(params['emp_id'])
+            print("self.last_exit_id")
+            print(self.last_exit_id)
             if params['action'] == 'out':
-                if params['emp_id'] != self.last_exit_id:
+                if params['emp_id'] != self.last_exit_id and str(params['emp_id']) != '-1':
                     self.turnstile.let_customer_out()
                     self.last_exit_id = params['emp_id']
                     self.last_exit_time = time()

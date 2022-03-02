@@ -1,6 +1,10 @@
 
 __pycache__
-csc_venv
+*_venv*
+*.log
+migrations
+temp
+
 
 logs
 

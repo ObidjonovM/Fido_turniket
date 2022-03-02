@@ -10,17 +10,25 @@ class Turnstile:
 
 
     def let_customer_in(self):
-        resp = requests.get(
-            self.host, params={"cmd" : "openindoor"}, timeout=2
-        )
-        return str(resp.content)
+        try:
+            resp = requests.get(
+                self.host, params={"cmd" : "openindoor"}, timeout=2
+            )
+            return str(resp.content)
+        except (requests.exceptions.RequestException, ValueError) as e:
+            print('Error caught!') 
+            print(e)
 
 
     def let_customer_out(self):
-        resp = requests.get(
-            self.host, params={"cmd" : "openoutdoor"}, timeout=2
-        )
-        return str(resp.content)
+        try:
+            resp = requests.get(
+                self.host, params={"cmd" : "openoutdoor"}, timeout=2
+            )
+            return str(resp.content)
+        except (requests.exceptions.RequestException, ValueError) as e:
+            print('Error caught!') 
+            print(e)
 
     
     def get_distances(self):

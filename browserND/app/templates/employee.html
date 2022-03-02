@@ -90,8 +90,8 @@
                     <th>№</th>
                     <th>Время прихода</th>
                     <th>Время ухода</th>
-                    <th>Общее время</th>
-                    <th>normative</th>
+                    <th>Общее время в офисе (в час)</th>
+                    <th>Процент занятости</th>
                 </tr>
 
                 {% for i in range(emp_info['weekly_logs']|length) %}
@@ -125,7 +125,7 @@
                     {%if emp_info['weekly_logs'] == [{}] %}
                     <td class="empty">-</td>
                     {%else%}
-                    <td>{{emp_info['weekly_logs'][i]['normative']}}</td>
+                    <td>{{emp_info['weekly_logs'][i]['normative']}} %</td>
                     {%endif%}
                 </tr>
 
@@ -182,7 +182,7 @@
     function employeeData() {
         document.getElementById('table').style.display = 'none';
         const log_settings = document.querySelector('input[name="log_settings"]:checked');
-        const monthName = {'Jan': '01','Feb' : '02', 'Mart' : '03',
+        const monthName = {'Jan': '01','Feb' : '02', 'Mar' : '03',
                             'Apr' : '04', 'May' : '05', 'Jun' : '06',
                             'Jul' : '07', 'Aug' : '08', 'Sep' : '09',
                             'Oct': '10', 'Nov' : '11', 'Dec' : '12'};
@@ -199,14 +199,14 @@
                 const resp = JSON.parse(this.responseText);
 
                 if (resp['filos']) {
-                    employee_table.style.maxWidth = '800px';
+                    employee_table.style.maxWidth = '50%';
                     var row = `<tr>
                                     <th>№</th>
                                     <th>Время прихода</th>
                                     <th>Время ухода</th>
-                                    <th>Общее время в офисе</th>
-                                    <th>Total time</th>
-                                    <th>Normative</th>
+                                    <th>Общее время в офисе(в час)</th>
+                                    <th>Общее время в офисе(в секунду)</th>
+                                    <th>Процент занятости</th>
                                     </tr>`
                     table.innerHTML = row;
                     for (let i = 0; i < resp['filos'].length; i++) {
@@ -230,8 +230,8 @@
                                         <td>${addZero(year)+"-" + monthName[month] + "-" + addZero(day) + " " + addZero(hours) }</td>
                                         <td>${addZero(year1)+"-" + monthName[month1] + "-" + addZero(day1) + " " + addZero(hours1)}</td>
                                         <td>${resp['filos'][i]['formatted_time']}</td>
-                                        <td>${resp['filos'][i]['total_time']}</td>
-                                        <td>${resp['filos'][i]['normative']}</td>
+                                        <td>${resp['filos'][i]['total_time']} s</td>
+                                        <td>${resp['filos'][i]['normative']} %</td>
                                         </tr>`
                             table.innerHTML += row
                         }
@@ -239,7 +239,7 @@
                 }
 
                 if (resp['inouts']) {
-                    employee_table.style.maxWidth = '454px';
+                    employee_table.style.maxWidth = '50%';
                     var row = `<tr>
                                     <th>№</th>
                                     <th>Время</th>
