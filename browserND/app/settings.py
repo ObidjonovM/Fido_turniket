@@ -4,7 +4,7 @@ SECRET_KEY = b"b5f451ca5ac523cf2244e946eb150e3c"
 
 # database settings parameters
 SUPER_USER = "timur.babadjanov"                    # super user to add or delete users
-ENTRANCE_USER = "entrance"
+ENTRANCE_ROLE_ID = 4
 
 
 # face recognition settings parameters
@@ -30,3 +30,7 @@ cam_out_photo = join("..", "camera_out", "camera_out_photo.jpg")
 
 # entrance settings
 MAX_MEASUREMENT_GAP = 5.0                      # second(s)
+
+
+# default variables
+DEF_PASS = "123"

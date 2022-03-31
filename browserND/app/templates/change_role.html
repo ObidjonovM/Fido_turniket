@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{{ super() }}
+
+<link rel="stylesheet" href="static/css/change_password.css">
+
+{% endblock %}
+
+{% block body %}
+
+{{ super() }}
+
+<form action="{{ url_for('view.change_role') }}" method="POST">
+    <label for="login">Логин</label>
+    <select name="login" id="login" required>
+        <option hidden value="" selected disabled>--Выбрать--</option>
+        {% for i in range(users|length)%}
+        <option value="{{users[i][0]}}">{{users[i][0]}}</option>
+        {%endfor%}
+    </select>
+
+    <label for="role_id">Роли</label>
+    <select name="role_id" id="role_id" required>
+        <option hidden value="" selected disabled>--Выбрать--</option>
+        {% for i in range(roles|length)%}
+        <option value="{{roles[i][0]}}">{{roles[i][1]}}</option>
+        {%endfor%}
+    </select>
+
+    <input type="submit" value="Обновить">
+</form>
+
+{% endblock %}

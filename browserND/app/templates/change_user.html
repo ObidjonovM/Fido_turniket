@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{{ super() }}
+
+<link rel="stylesheet" href="/static/css/change_password.css">
+
+{% endblock %}
+
+{% block body %}
+
+{{ super() }}
+
+<form action="#" method="POST">
+
+    <input type="hidden" name="user_id" value="{{user['id']}}">
+
+    <label for="user_id">Пользователь</label>
+    <input type="text" id="user_id" value="{{user['login']}}" readonly required>
+
+    <label for="role_id">Роли</label>
+    <select name="role_id" id="role_id" required>
+        {% for i in range(roles|length)%}
+        {%if user['role_id'] == roles[i][0]%}
+        <option selected value="{{roles[i][0]}}">
+            {{roles[i][1]}}
+        </option>
+        {%else%}
+        <option value="{{roles[i][0]}}">
+            {{roles[i][1]}}
+        </option>
+        {%endif%}
+        {%endfor%}
+    </select>
+
+
+    <input type="submit" value="Сохранить">
+    <a href="{{url_for('view.all_users')}}">Отмена</a>
+</form>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{{ super() }}
+
+<link rel="stylesheet" href="/static/css/add_role.css">
+
+{% endblock %}
+
+
+{% block body %}
+
+{{ super() }}
+
+<form  action="{{ url_for('view.add_role') }}" method="POST">
+    <label for="name">Новая роль</label>
+    <input type="text" name="name" id="name" placeholder="войти в новую роль..." required>
+
+    <input type="submit" value="Сохранить"/>
+</form>
+
+<script src="/static/js/add_role.js"></script>
+{% endblock %}

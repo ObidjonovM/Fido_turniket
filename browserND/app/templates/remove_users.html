@@ -12,11 +12,12 @@
 
 {{ super() }}
 <form method="POST">
-    <label for="username">Пользователь</label>
-    <select name="username">
-        {% for user in users %}
-        <option value="{{user.username}}">{{user.username}}</option>
-        {% endfor %}
+    <label for="user_id">Пользователь</label>
+    <select name="user_id" id="user_id" required>
+        <option hidden value="" selected disabled>--Выбрать--</option>
+        {% for i in range(users|length)%}
+        <option value="{{users[i][0]}}">{{users[i][1]}}</option>
+        {%endfor%}
     </select>
     <input type="submit" value="Удалить">
 </form>

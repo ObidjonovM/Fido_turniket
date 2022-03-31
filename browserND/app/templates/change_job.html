@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+
+<link rel="stylesheet" href="/static/css/change_job.css">
+
+{% endblock %}
+
+{% block body %}
+
+{{ super() }}
+
+<form method="POST" action="{{url_for('view.change_job', job_id = job['id'])}}">
+
+    <input type="hidden" name="job_id" value="{{job['id']}}">
+
+    <label for="name">Должность</label>
+    <textarea name="name" id="name">{{job['name']}}</textarea>
+
+    <input type="submit" value="Сохранить">
+    <a href="{{url_for('view.all_jobs')}}">Отмена</a>
+</form>
+
+<script src="/static/js/change_job.js"></script>
+{% endblock  %}

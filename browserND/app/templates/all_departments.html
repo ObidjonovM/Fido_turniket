@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="static/css/all_departments.css">
+{% endblock %}
+
+{% block body %}
+
+{{ super() }}
+
+<div class="otmen-and-add">
+    <a href="{{url_for('view.index')}}">Назад</a>
+    <a href="{{url_for('view.add_department')}}">Добавить</a>
+</div>
+
+<div class="employees_container">
+    <table id="dataTable">
+
+        <tr class="thead" style="pointer-events: none">
+            <th>№</th>
+            <th>Название</th>
+            <th>Действие</th>
+        </tr>
+
+        {% for i in range(departments|length) %}
+        <tr class="tr">
+            <td>{{i+1}}</td>
+            <td>{{departments[i][1]}}</td>
+            <td>
+                <a href="{{url_for('view.change_department', dept_id = departments[i][0])}}">Изменить</a>
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+
+<script src="/static/js/all_departments.js"></script>
+{% endblock %}

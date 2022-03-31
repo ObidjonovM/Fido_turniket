@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <link rel="stylesheet" href="static/css/entrance_old.css">
+</head>
+
+<body>
+
+    <div id="photos" class="row1 shown">
+
+        <div id='demo' class="column1">
+            <img id="image" class="glav-attach" src="/static/img/daily_img/photo_2021-01-07_17-18-13.jpg" alt="">
+        </div>
+        <div class="column2">
+            <div>
+                <img class="logo" src="/static/img/fido_logo.svg">           
+            </div>
+            <div class="flex-tablo">
+                <div>
+                    <div id="name_in">Вход:</div>
+                </div>
+                <div>
+                    <div id="name_out">Выход:</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="column3">
+            <div class="flex-container">
+                <div class="client">
+                    <img id="photo_in" src="{{ url_for('view.video_feed_in')}}" alt="photo_in"></img>
+                    <div class="inp">Вход</div>
+                </div>
+                <div class="client">
+                    <img id="photo_out" src="{{ url_for('view.video_feed_out') }}" alt="photo_out"></img>
+                    <div class="out">Выход</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="birthday" class="hidden">
+        <img src="/static/img/happybirthday.jpg"></img>
+        <h2 id="client_name"></h2>
+        <audio id="song">
+            <source src="static/audio/happy_birthday.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script src="/static/js/jquery-3.5.1.min.js"></script>
+    <script src="/static/js/entrance_old.js"></script>
+</body>
+
+</html>

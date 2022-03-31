@@ -12,6 +12,11 @@ form * {
     margin-right: auto;
 }
 
+form a {
+    margin-top: 1rem;
+    text-align: center;
+}
+
 form input[type="text"], form input[type="password"]  {
     margin-bottom: 10px;
 }
@@ -23,6 +28,7 @@ form input[type="submit"] {
 form label {
     margin-bottom: 5px;
     font-size: 1.1rem;
+    margin-top: 10px;
 }
 
 small {

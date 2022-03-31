@@ -80,7 +80,7 @@
         <div class="desc-img">Лог фото</div>
         <img id="log_img" src="" alt="log photo">
         <div id="label_as" class="hidden"></div>
-        {% if main_user == True %}
+        {% if role_id < 3 %}
             <div id="dist_in"></div>
             <div id="dist_out"></div>
             <div id="face_dist"></div>
@@ -95,8 +95,9 @@
         {% endif %}
     </div>
 </div>
+{{role_id}}
 <script src="/static/js/view_logs.js"></script>
-<script src="static/js/get_csv.js"></script>
+<script src="/static/js/get_csv.js"></script>
 
 <script>
     const dataTable = document.getElementById("dataTable");

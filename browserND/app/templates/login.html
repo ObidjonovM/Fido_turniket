@@ -7,14 +7,14 @@
     <img class="logo" src="static/img/fido_logo.svg">
     <form class="form-signin" method="POST">
         <div class="form-label-group">
-            <input type="text" class="form-control" name="username" placeholder="Пользователь" required>
-            <label for="username">Пользователь</label>
+            <input type="text" class="form-control" id="login" name="login" placeholder="Пользователь" required>
+            <label for="login">Пользователь</label>
             {% if not user_exists %}
             <small>Пользователь не найден</small>
             {% endif %}
         </div>
         <div class="form-label-group">
-            <input type="password" class="form-control" name="password" placeholder="Пароль" required>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Пароль" required>
             <label for="password">Пароль</label>
             {% if wrong_password %}
             <small>Неверный пароль</small>

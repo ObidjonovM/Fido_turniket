@@ -11,6 +11,54 @@ body {
     top: 0;
     width: 100%;
     padding: 10px;
+    background-color: #353535;
+}
+
+.main_menu a {
+    margin-bottom: 0;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+.main-page {
+    float: left;
+}
+
+.main-page a {
+    margin-bottom: 0;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+.hi-person-logOut {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    float: right;
+}
+
+.hidden {
+    display: none;
+}
+
+.hi-person-logOut div {
+    width: auto;
+    padding: 3px 10px;
+    color: white;
+    border-radius: 5px;
+    font-size: 13px;
+    margin-right: 4rem;
+    text-align: center;
+}
+
+.hi-person-logOut div p {
+    text-align: center;
+}
+
+.hi-person-logOut a {
+    border: 1px solid white;
+    margin-bottom: 0;
+    border-radius: 5px;
 }
 
 .main_menu a:first-child {
@@ -31,7 +79,7 @@ a {
 a:link {
     color: white;
     text-decoration: none;
-    padding: 12px 10px;
+    padding: 10px 10px;
 }
 
 a:visited {
@@ -68,44 +116,53 @@ a:active {
     margin-top: 8%;
     margin-left: auto;
     margin-right: auto;
-    margin-bottom: 5%;
+    margin-bottom: 3%;
     width: 22%;
     min-width: 200px;
-  }
+}
 
 
-  input[type="text"], input[type="date"], input[type="password"] {
-    background-color: rgb(82, 75, 74);
+input[type="text"], input[type="date"], input[type="password"] , select, input[type="submit"], input[type="button"],
+input[type="file"] {
     border-style: solid;
     border-width: 2px;
     border-color: rgb(56, 47, 45);
     border-radius: 10px;
+    font-size: 16px;
+    padding: 5px 10px;
+    height: 44px;
+}
+
+input[type="text"], input[type="date"], input[type="password"] , select, textarea {
+    background-color: rgb(82, 75, 74);
     color: rgb(170, 170, 170);
-    font-size: 1.2rem;
-    padding-left: 2px;
-  }
+}
 
-  input[type="submit"], input[type="button"], 
-  input[type="file"], select {
+input[type="submit"], input[type="button"],
+input[type="file"] {
     background-color: rgba(53, 53, 53, 0.945);
-    padding: 5px 10px;
-    /*margin-bottom: 20px;*/
-    border: none;
-    border-radius: 10px;
-    font-size: 1.2rem;
     color: white;
-    min-width: 130px;
-  }
+}
+
+.employees {
+    padding: 10px 10px;
+}
+
+input[type="submit"]:hover, input[type="button"]:hover,
+input[type="file"]:hover {
+    background-color: rgba(46, 46, 46, 0.979);
+}
 
 
-
-  .upload_photo {
+.upload_photo {
+    height: 44px;
     background-color: rgba(53, 53, 53, 0.945);
     padding: 5px 10px;
-    /*margin-bottom: 20px;*/
     border: none;
     border-radius: 10px;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     color: white;
     cursor: pointer;
-  }
+    text-align: center;
+    line-height: 35px;
+}

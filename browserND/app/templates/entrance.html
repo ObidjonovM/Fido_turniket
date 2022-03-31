@@ -2,47 +2,56 @@
 <html>
 
 <head>
-
     <link rel="stylesheet" href="static/css/entrance.css">
+    <link href='https://fonts.googleapis.com/css?family=Manrope' rel='stylesheet'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
-<body>
-
-    <div id="photos" class="row1 shown">
-
-        <div id='demo' class="column1">
-            <img id="image" class="glav-attach" src="/static/img/daily_img/photo_2021-01-07_17-18-13.jpg" alt="">
+<body onload="startTime()">
+    <div id="photos" class="shown row">
+        <div class="column1">
+            <div>
+                <img class="logo" src="/static/img/logo.svg">
+            </div>
+            <div class="indicators">
+                <div><span class="day-name">Сейчас</span><img src="/static/img/ic_weather.svg"
+                        id="icon_weather_tek"><br><span id="temper_tek">0</span>℃ </div>
+                <div><span class="day-name">Завтра</span><img src="/static/img/ic_weather.svg"
+                        id="icon_weather_zav"><br><span id="temper_zav">0...0</span>℃ </div>
+                <div><span class="day-name day-name-pz">Послезавтра</span><img src="/static/img/ic_weather.svg"
+                        id="icon_weather_pos_zav"><br><span id="temper_pos_zav">0...0</span>℃ </div>
+                <div><span id="time">21:47</span> <br> <span id="day">Понедельник <br> 12 апреля</span></div>
+            </div>
+            <div class="main-photo">
+                <img class="glav-attach" src="/static/img/daily_img/photo_2021-01-07_17-18-13.jpg">
+            </div>
         </div>
         <div class="column2">
-            <div>
-                <img class="logo" src="/static/img/fido_logo.svg">           
-            </div>
-            <div class="flex-tablo">
-                <div>
-                    <div id="name_in">Вход:</div>
-                </div>
-                <div>
-                    <div id="name_out">Выход:</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="column3">
-            <div class="flex-container">
-                <div class="client">
-                    <img id="photo_in" src="{{ url_for('view.video_feed_in')}}" alt="photo_in"></img>
+            <div class="div-camera">
+                <div class="div-cam">
+                    <img class="photo-cam" id="photo_in" src="{{ url_for('view.video_feed_in')}}" alt="photo_in"></img>
                     <div class="inp">Вход</div>
                 </div>
-                <div class="client">
-                    <img id="photo_out" src="{{ url_for('view.video_feed_out') }}" alt="photo_out"></img>
+                <div class="div-cam">
+                    <img class="photo-cam" id="photo_out" src="{{ url_for('view.video_feed_out') }}"
+                        alt="photo_out"></img>
                     <div class="out">Выход</div>
+                </div>
+            </div>
+            <div class="emp-name">
+                <div>
+                    <div id="name_in"><img src="/static/img/ic_enter.svg"> Вход:</div>
+                </div>
+                <div>
+                    <div id="name_out"><img src="/static/img/ic_exit.svg"> Выход:</div>
                 </div>
             </div>
         </div>
     </div>
+
     <div id="birthday" class="hidden">
-        <img src="/static/img/happybirthday.jpg"></img>
-        <h2 id="client_name"></h2>
+        <img src="/static/img/happyBirthday.gif"></img>
+        <div id="client_name"></div>
         <audio id="song">
             <source src="static/audio/happy_birthday.mp3" type="audio/mpeg">
         </audio>

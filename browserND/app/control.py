@@ -1,7 +1,8 @@
 from app.models.inoutlogs import InoutLogPhotos
 from requests.api import request
-from app.settings import SUPER_USER, MAX_MEASUREMENT_GAP, cam_in_photo, cam_out_photo
-from app.models import Employee, Users, FaceEncodings, Entrance, InOutLogs, MorePhotos
+from app.settings import SUPER_USER, MAX_MEASUREMENT_GAP, DEF_PASS, cam_in_photo, cam_out_photo
+from app.models import (Employee, User, FaceEncodings, Entrance, 
+                        InOutLogs, MorePhotos, Role, Department, Job)
 from app import entState
 from werkzeug.security import generate_password_hash
 from sqlalchemy import and_
@@ -103,13 +104,45 @@ def __removeFromFR(emp_id):
     }
 
 
-def all_employees():
-    return Employee.query.with_entities(
-        Employee.id,
-        Employee.name,
-        Employee.department,
-        Employee.job
-    ).filter_by(active=True).order_by(Employee.department, Employee.name).all()
+def all_employees(session):
+    if session['role_id'] < 3:
+        return Employee.AllEmployees()
+    else:
+        if 'emp_id' in session:
+            if session['job_id'] == 2:
+                return Employee.AllEmployees()
+            elif session['job_id'] in [10, 11]:
+                return Employee.EmployeesByDeptId(session['dept_id'])
+            else:
+                return []
+
+
+def all_users():
+    return User.AllUsers()
+
+
+def all_employees_not_user():
+    return User.AllEmployeesNotUser()
+
+
+def get_all_emp_id_name():
+    return Employee.getAllClientNames()
+
+
+def get_department(dept_id):
+    return Department.get_department(dept_id)
+
+
+def all_departments():
+    return Department.AllDepartments()
+
+
+def get_job(job_id):
+    return Job.get_job(job_id)
+
+
+def all_jobs():
+    return Job.AllJobs()
 
 
 def get_emp_info(emp_id):
@@ -118,8 +151,8 @@ def get_emp_info(emp_id):
     emp_info['id'] = emp_id
     emp_info['fullname'] = utils.parse_fullname(emp.name)
     emp_info['birthDate'] = datetime.strftime(emp.birth_date, '%Y-%m-%d')
-    emp_info['dept'] = emp.department
-    emp_info['job'] = emp.job
+    emp_info['dept_id'] = emp.department_id
+    emp_info['job_id'] = emp.job_id
     emp_info['photo'] = emp.photo
     emp_info['weekly_logs'] = get_employee_weekly_logs(emp_id)
 
@@ -193,7 +226,7 @@ def delete_emp_photo(rec_id):
     }
 
 
-def update_user_info(form):
+def update_employee(form):
     #update employee table
     upd_emp_info = Employee.updateEmployeeInfo(form)
 
@@ -251,7 +284,7 @@ def __updateFR(emp_id, photo, old_photo):
         'face_encodings' : upd_res2['face_encodings']}
 
 
-def delete_user(form):
+def delete_employee(form):
     emp_id = form['custId']
     del_fe = FaceEncodings.deactivateFaceEncodings(emp_id)
 
@@ -335,10 +368,16 @@ def __deleteFR(emp_id, photo):
     }
 
 
-def add_user(form):
-    if form['password'] == form['confirm_password']:
+def add_user(form, session):
+    if int(form['role_id']) == 1:
+        return {
+            'status_code' : -4,
+            'status' : f'Cannot add superuser'
+        }
+    if int(session['role_id']) <= 2:
         try:
-            db.session.add(Users(form['username'], form['password']))
+            db.session.add(User(form['login'], DEF_PASS, form['role_id'], \
+            form['emp_id'], form['dept_id'], form['job_id']))
             db.session.commit()
             return {
                 'status_code' : 0,
@@ -349,20 +388,20 @@ def add_user(form):
                 'status_code' : -5,
                 'status' : f'Could not add new user - {exc_info()[0]} : {exc_info()[1]} '
             }
-    
-    return {
-        'status_code' : -6,
-        'status' : f'Password and confirm password fields do not match'
-    }
+    else:
+        return {
+            'status_code' : -3,
+            'status' : f'You cannot add a user'
+        }
 
 
 def change_password(form, session):
-    same_username = True
+    same_login = True
     old_pass_match = True
     new_pass_same = True
     user = None
-    if session['username'] != form['username']:
-        same_username = False
+    if session['login'] != form['login']:
+        same_login = False
         return {
             'status_code' : -7,
             'status' : 'User can only change his/her password'
@@ -374,7 +413,7 @@ def change_password(form, session):
             'status' : 'New password field is not same as entered password'
         }
     else:
-        user = Users.query.filter_by(username=session['username']).first()
+        user = User.query.filter_by(login=session['login']).first()
         if not user.check_password(form['old_password']):
             old_pass_match = False
             return {
@@ -382,7 +421,7 @@ def change_password(form, session):
                 'status' : 'Old password did not match'
             }
 
-    if all([same_username, old_pass_match, new_pass_same]):
+    if all([same_login, old_pass_match, new_pass_same]):
         user.password_hash = generate_password_hash(form['new_password'])
         db.session.add(user)
         db.session.commit()
@@ -392,25 +431,61 @@ def change_password(form, session):
         }
 
 
-def get_users():
-    return Users.query.with_entities(Users.username).all()
-
-
-def remove_user(form, session):
-    if form['username'] != session['username']:
+def change_user(form, session):
+    user = None
+    if int(session['role_id']) <= 2:
         try:
-            if form['username'] != SUPER_USER:
-                db.session.delete(
-                    Users.query.filter_by(username=form['username']).first())
+            user = User.query.filter_by(id=form['user_id']).first()
+            if int(user.role_id) > int(session['role_id']) and int(form['role_id']) >= int(session['role_id']):
+                user.role_id = form['role_id']
+                db.session.add(user)
                 db.session.commit()
                 return {
                     'status_code' : 0,
                     'status' : 'OK'
                 }
-            
+
             return {
                 'status_code' : -10,
-                'status' : "Super user can't be remove"
+                'status' : "You can't update"
+            }
+
+        except:
+            return {
+                'status_code' : -11,
+                'status' : 'Could not update the user from database'
+            }
+
+    else:
+        return {
+            'status_code' : -12,
+            'status' : "You are not allowed to update"
+        }
+
+
+def get_users():
+    return User.query.with_entities(User.login).all()
+
+
+def get_user(id):
+    return User.query.filter_by(id = id).first()
+
+
+def remove_user(user_id, session):
+    if int(session['role_id']) <= 2:
+        try:
+            user = User.query.filter_by(id=user_id).first()
+            if int(user.role_id) > int(session['role_id']):
+                db.session.delete(user)
+                db.session.commit()
+                return {
+                    'status_code' : 0,
+                    'status' : 'OK'
+                }
+
+            return {
+                'status_code' : -10,
+                'status' : "You can't delete"
             }
 
         except:
@@ -421,28 +496,144 @@ def remove_user(form, session):
     else:
         return {
             'status_code' : -12,
-            'status' : "User can't remove itself"
+            'status' : "You are not allowed to delete"
         }
 
 
 def login(form, session):
     user_exists = True
     wrong_password = False
-    user = Users.query.filter_by(username=form['username']).first()
+    user = User.query.filter_by(login=form['login']).first()
 
     if user is None:
         return False, wrong_password
     else:
         if user.check_password(form['password']):
-            session['username'] = user.username
-            if user.username == SUPER_USER:
-                session['main_user'] = True
-            else:
-                session['main_user'] = False
+            session['login'] = user.login
+            session['role_id'] = user.role_id
+            if user.emp_id != None:
+                session['emp_id'] = user.emp_id
+                session['dept_id'] = user.department_id
+                session['job_id'] = user.job_id
             
             return user_exists, wrong_password
         
         return user_exists, True
+
+
+def add_department(form):
+    try:
+        db.session.add(Department(form['name']))
+        db.session.commit()
+        return {
+            'status_code' : 0,
+            'status' : 'OK'
+        }
+    except:
+        return {
+            'status_code' : -5,
+            'status' : f'Could not add new department - {exc_info()[0]} : {exc_info()[1]} '
+        }
+
+
+def change_department(form):
+    department = None
+    try:
+        department = Department.query.filter_by(id=form['dept_id']).first()
+        department.name = form['name']
+        db.session.add(department)
+        db.session.commit()
+        return {
+            'status_code' : 0,
+            'status' : 'OK'
+        }
+
+    except:
+        return {
+            'status_code' : -11,
+            'status' : 'Could not update the department from database'
+        }
+
+
+def add_job(form):
+    try:
+        db.session.add(Job(form['name']))
+        db.session.commit()
+        return {
+            'status_code' : 0,
+            'status' : 'OK'
+        }
+    except:
+        return {
+            'status_code' : -5,
+            'status' : f'Could not add new job - {exc_info()[0]} : {exc_info()[1]} '
+        }
+
+
+def change_job(form):
+    Job = None
+    try:
+        Job = Job.query.filter_by(id=form['job_id']).first()
+        Job.name = form['name']
+        db.session.add(Job)
+        db.session.commit()
+        return {
+            'status_code' : 0,
+            'status' : 'OK'
+        }
+
+    except:
+        return {
+            'status_code' : -11,
+            'status' : 'Could not update the job from database'
+        }
+
+
+def add_role(form):
+    try:
+        db.session.add(Role(form['name']))
+        db.session.commit()
+        return {
+            'status_code' : 0,
+            'status' : 'OK'
+        }
+    except:
+        return {
+            'status_code' : -5,
+            'status' : f'Could not add new role - {exc_info()[0]} : {exc_info()[1]} '
+        }
+
+
+def get_roles_by_equals_small(role_id):
+    return Role.query.with_entities(Role.id, Role.name). \
+        filter(Role.id >= role_id, Role.id != 1, Role.id != 4).all()
+
+
+def get_roles_by_small(role_id):
+    return Role.query.with_entities(Role.id, Role.name).filter(Role.id > role_id).all()
+
+
+def remove_role(form):
+    try:
+        if form['name'] == SUPER_USER:
+            db.session.delete(
+                Role.query.filter_by(id=form['role_id']).first())
+            db.session.commit()
+            return {
+                'status_code' : 0,
+                'status' : 'OK'
+            }
+        
+        return {
+            'status_code' : -10,
+            'status' : "Super user can't be remove"
+        }
+
+    except:
+        return {
+            'status_code' : -11,
+            'status' : 'Could not delete the user from database'
+        }
 
 
 def get_all_encodings():
@@ -920,6 +1111,38 @@ def get_employee_weekly_logs(emp_id):
             start_date.strftime('%Y-%m-%d'),
             end_date.strftime('%Y-%m-%d')
         )
+
+
+def get_employees_daily_logs_in(start_date):
+    start_date = start_date
+    end_date = start_date + timedelta(days=1)
+    result =  InOutLogs.get_employees_logs_in(
+            start_date,
+            end_date
+        )
+
+    time_in = {}
+    for log in result:
+        if hasattr(log[1], 'time'):
+            time_in[log[0]] = str(log[1].time()).split(".")[0]
+
+    return time_in
+
+
+def get_employees_daily_logs_out(start_date):
+    start_date = start_date
+    end_date = start_date + timedelta(days=1)
+    result =  InOutLogs.get_employees_logs_out(
+            start_date,
+            end_date
+        )
+
+    time_out = {}
+    for log in result:
+        if hasattr(log[1], 'time'):
+            time_out[log[0]] = str(log[1].time()).split(".")[0]
+
+    return time_out
 
 
 def log_info(log_id):

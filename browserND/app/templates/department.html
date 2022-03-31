@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{{ super() }}
+
+<link rel="stylesheet" href="/static/css/department.css">
+<link rel="stylesheet" href="/static/css/all_employee.css">
+
+{% endblock %}
+
+
+{% block body %}
+
+{{ super() }}
+
+<div class="employees_container">
+    <table id="dataTable">
+
+        <tr class="thead">
+            <th>№</th>
+            <th>Ф.И.О</th>
+            <th>Департаменты</th>
+        </tr>
+
+        {% for i in range(departments|length) %}
+        <tr class="tr">
+            <td>{{i+1}}</td>
+            <td>
+                <a href="#" style="text-align: left">
+                    {{departments['name'][i]}}
+                </a>
+            </td>
+            <td>
+                <a href="#">
+                    {{departments['department'][i]}}
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</div>
+
+
+<script src="/static/js/department.js"></script>
+{% endblock %}

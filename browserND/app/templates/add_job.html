@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+
+<link rel="stylesheet" href="/static/css/add_job.css">
+
+{% endblock %}
+
+{% block body %}
+
+{{ super() }}
+
+<form method="POST" action="{{url_for('view.add_job')}}">
+
+    <label for="name">Должности</label>
+    <textarea name="name" id="name"></textarea>
+
+    <input type="submit" value="Добавить">
+    <a href="{{url_for('view.all_jobs')}}">Отмена</a>
+</form>
+
+<script src="/static/js/add_job.js"></script>
+{% endblock  %}

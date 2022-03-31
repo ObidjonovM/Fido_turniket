@@ -1,5 +1,6 @@
 from app import db
-from sqlalchemy import and_
+from sqlalchemy import and_, select
+from sqlalchemy.sql import func
 
 
 class InOutLogs(db.Model):
@@ -57,6 +58,30 @@ class InOutLogs(db.Model):
                 InOutLogs.reg_time, InOutLogs.action, 
                 InOutLogs.log_id, InOutLogs.emp_id
             ).order_by(InOutLogs.log_id).all()
+    
+    
+    @staticmethod
+    def get_employees_logs_in(start_date, end_date):
+        records = {}
+        try:
+            query = db.session.query(InOutLogs.emp_id, func.min(InOutLogs.reg_time))
+            records = query.filter(InOutLogs.reg_time.between(start_date, end_date), InOutLogs.action == 'in').group_by(InOutLogs.emp_id).all()
+        except:
+            print("Failed to query to the table")
+
+        return records
+    
+    
+    @staticmethod
+    def get_employees_logs_out(start_date, end_date):
+        records = {}
+        try:
+            query = db.session.query(InOutLogs.emp_id, func.max(InOutLogs.reg_time))
+            records = query.filter(InOutLogs.reg_time.between(start_date, end_date), InOutLogs.action == 'out').group_by(InOutLogs.emp_id).all()
+        except:
+            print("Failed to query to the table")
+
+        return records
 
 
     @staticmethod
@@ -97,7 +122,7 @@ class InOutLogs(db.Model):
             log = InOutLogs.query.filter_by(log_id=log_id).first()
             log.emp_id = emp_id
             db.session.add(log)
-            db.session.commit()
+            
         except:
             db.session.rollback()
             return {
@@ -105,6 +130,7 @@ class InOutLogs(db.Model):
                 'status' : f'Could not update the InOutLogs table info {exc_info()[0]} : {exc_info()[1]} '
             }
 
+        db.session.commit()
         return {
             'status_code' : 0,
             'status' : 'OK'

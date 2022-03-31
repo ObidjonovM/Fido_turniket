@@ -15,6 +15,11 @@ def make_fullname(fname, lname, mname):
     return f"{lname} {fname} {mname}"
 
 
+def make_username(fullname):
+    fullname_list = fullname.split()
+    return f"{fullname_list[1].lower()}.{fullname_list[0].lower()}"
+
+
 def bytesTobase64(_bytes):
     return base64.b64encode(_bytes)
 

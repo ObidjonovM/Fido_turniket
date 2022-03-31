@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{{ super() }}
+
+<link rel="stylesheet" href="/static/css/remove_role.css">
+
+{% endblock %}
+
+
+{% block body %}
+
+{{ super() }}
+{{roles}}
+
+<form action="{{ url_for('view.remove_role') }}" method="post">
+        <label for="name">Роли</label>
+        <select name="name" id="name" required>
+            <option hidden value="" selected disabled>--Выбрать--</option>
+            {% for i in range(roles|length)%}
+            <option value="{{roles[i][1]}}">{{roles[i][1]}}</option>
+            {%endfor%}
+        </select>
+
+        <input type="submit" value="Удалить роль">
+</form>
+
+
+<script src="/static/js/remove_role.js">
+</script>
+{% endblock %}

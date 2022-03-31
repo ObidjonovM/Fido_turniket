@@ -9,12 +9,19 @@
 
 {{ super() }}
 
+<label for="dateLogs" style="top: 11.4rem; position: fixed; right: 23rem; font-size: 1.2rem;">Дата прихода и ухода
+    сотрудников:</label>
+<input type="date" id="dateLogs" style="position: fixed; top: 11rem; right: 7rem; width: 250px"
+       onchange="getDateLogs()">
+
+<input type="button" id="btnExportToCsv" onclick="ExportToExcel('xlsx')" value="Получить в EXCEL">
+
 <input type="search" id="myInput" placeholder="поиск..." class="search-input">
 
 <div class="employees_container">
     <table id="dataTable">
 
-        <tr class="thead">
+        <tr class="thead" style="pointer-events: none">
             <th>№</th>
             <th>
                 <button onclick="sortTable1()">
@@ -30,6 +37,7 @@
                 </button>
                 Отдел
             </th>
+
             <th>
                 <button onclick="sortTable3()">
                     <img src="../static/img/north_black_24dp.svg" class="img_sort2">
@@ -37,6 +45,23 @@
                 </button>
                 Должность
             </th>
+
+            <th style="width: 200px">
+                <button onclick="sortTable5()">
+                    <img src="../static/img/north_black_24dp.svg" class="img_sort3">
+                    <img src="../static/img/south_black_24dp.svg" class="img_sort_open3" style="display: none">
+                </button>
+                Время прихода
+            </th>
+
+            <th style="width: 160px">
+                <button onclick="sortTable6()">
+                    <img src="../static/img/north_black_24dp.svg" class="img_sort4">
+                    <img src="../static/img/south_black_24dp.svg" class="img_sort_open4" style="display: none">
+                </button>
+                Время ухода
+            </th>
+
             <th style="min-width: 130px">
                 <button onclick="sortTable4()">
                     <img src="../static/img/north_black_24dp.svg" class="img_sort2">
@@ -44,53 +69,67 @@
                 </button>
                 В офисе
             </th>
+
         </tr>
 
-        {% for employee in range(employees|length) %}
-        <tr class="tr">
-            <td>{{employee+1}}</td>
+        {% for i in range(employees|length) %}
+        <tr class="tr" onclick="getEmployees(this)">
+            <td class="hidden">{{employees[i][0]['id']}}</td>
+            <td>{{i+1}}</td>
             <td>
-                <a href="{{url_for('view.employee', emp_id=employees[employee][0])}}" style="text-align: left">
-                    {{employees[employee][1]}}
-                </a>
+                    <span>{{employees[i][0]['name']}}</span>
             </td>
             <td>
-                <a href="{{url_for('view.employee', emp_id=employees[employee][0])}}">
-                    {{employees[employee][2]}}
-                </a>
+                    <span>{{employees[i][1]['name']}}</span>
             </td>
             <td>
-                <a href="{{url_for('view.employee', emp_id=employees[employee][0])}}">
-                    {{employees[employee][3]}}
-                </a>
+                    <span>{{employees[i][2]['name']}}</span>
             </td>
-            {% if employees[employee][0] in in_office %}
-            {% if in_office[employees[employee][0]] == 'in'%}
+
+            {% if daily_logs_in[employees[i][0]['id']] is defined %}
             <td>
-                <a href="{{url_for('view.employee', emp_id=employees[employee][0])}}">
-                    Да
-                </a>
+                    <span>{{daily_logs_in[employees[i][0]['id']]}}</span>
+            </td>
+            {%else%}
+            <td>
+                    <span>-</span>
+            </td>
+            {%endif%}
+
+            {% if daily_logs_out[employees[i][0]['id']] is defined %}
+            <td>
+                    <span>{{daily_logs_out[employees[i][0]['id']]}}</span>
+            </td>
+            {%else%}
+            <td>
+                    <span>-</span>
+            </td>
+            {%endif%}
+
+            {% if employees[i][0]['id'] in in_office %}
+            {% if in_office[employees[i][0]['id']] == 'in'%}
+            <td>
+                    <span>Да</span>
             </td>
             {% else %}
             <td>
-                <a href="{{url_for('view.employee', emp_id=employees[employee][0])}}">
-                    Нет
-                </a>
+                    <span>Нет</span>
             </td>
             {% endif %}
             {% else %}
             <td>
-                <a href="{{url_for('view.employee', emp_id=employees[employee][0])}}">
-                    Нет
-                </a>
+                    <span>Нет</span>
             </td>
             {% endif %}
+
         </tr>
         {% endfor %}
 
     </table>
 </div>
 
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+<script src="static/js/all_employees.js"></script>
 <script>
     // SEARCH INPUT OPEN
     document.getElementById('myInput').addEventListener('keyup', function () {
@@ -161,21 +200,44 @@
         }
     }
 
+    function sortTable5() {
+        if (document.querySelector('.img_sort3').style.display !== 'none') {
+            document.querySelector('.img_sort3').style.display = 'none';
+            document.querySelector('.img_sort_open3').style.display = 'block';
+        } else {
+            document.querySelector('.img_sort3').style.display = 'block';
+            document.querySelector('.img_sort_open3').style.display = 'none';
+
+        }
+    }
+
+    function sortTable6() {
+        if (document.querySelector('.img_sort4').style.display !== 'none') {
+            document.querySelector('.img_sort4').style.display = 'none';
+            document.querySelector('.img_sort_open4').style.display = 'block';
+        } else {
+            document.querySelector('.img_sort4').style.display = 'block';
+            document.querySelector('.img_sort_open4').style.display = 'none';
+
+        }
+    }
+
     // scrol images ni bosganda display none va block bo'lishi
     // table da har bir col ustunni sortlash logikasi
     const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
     const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
-            v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : v1.toString().localeCompare(v2)
+            v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : ((v1 == '-') != (v2 == '-') ? (asc == true ? (v1 == '-' && v2 != '-' ? 1 : -1) : (v1 == '-' && v2 != '-' ? -1 : 1)) : v1.toString().localeCompare(v2))
     )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
 
     document.querySelectorAll('th').forEach(th => th.children[0] ? th.children[0].addEventListener('click', (() => {
-        console.log(th.children[0])
         const table = th.closest('table');
         Array.from(table.querySelectorAll('tr:nth-child(n+2)'))
             .sort(comparer(Array.from(th.parentNode.children).indexOf(th), this.asc = !this.asc))
             .forEach(tr => table.appendChild(tr));
     })) : '');
     // table da har bir col ustunni sortlash logikasi
+
+
 </script>
 {% endblock %}

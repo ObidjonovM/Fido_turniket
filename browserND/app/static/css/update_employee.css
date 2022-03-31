@@ -1,0 +1,85 @@
+:root {
+    --form-elements-width: 20em;
+    --video-width: 640px;
+    --video-btns-width: 10em;
+}
+
+.logo {
+    margin-top: 5%;
+    width: 30%;
+    min-width: 300px;
+}
+
+.employees {
+    display: block;
+    width: 13%;
+    min-width: 125px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-top: -1%;
+    cursor: pointer;
+}
+
+.emp_info {
+    padding: 0;
+    margin: 3rem auto;
+    display: flex;
+    justify-content: space-around;
+    align-content: center;
+    align-items: start;
+}
+
+form * {
+    width: var(--form-elements-width);
+}
+
+form label {
+    display: block;
+    font-size: 1.1em;
+    margin: 0;
+}
+
+form input[type="text"] {
+    margin-bottom: 10px;
+}
+
+form input[type="submit"] {
+    margin-top: 20px;
+    display: block;
+}
+
+input[type="text"], input[type="date"], select {
+    margin-top: 5px;
+}
+
+#video {
+    display: block;
+    width: var(--video-width);
+    border-radius: 30px;
+}
+
+#photo {
+    border-radius: 30px;
+    display: none;
+}
+
+#canvas, #jpeg_base64, #upload_photo {
+    display: none;
+}
+
+.video_buttons {
+    width: 100%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+}
+
+#take_photo, .upload_photo {
+    display: inline-block;
+    width: var(--video-btns-width);
+    margin: 1rem;
+}

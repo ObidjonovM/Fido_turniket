@@ -11,10 +11,10 @@
 {% block body %}
 
 {{ super() }}
-<input type="button" id="btnExportToCsv" value="Получить в CSV">
+<input type="button" id="btnExportToCsv" onclick="exceller()" value="Получить в EXCEL">
 
 <div class="table_wrapper">
-    <table id="dataTable">
+    <table id="toExcel">
 
             <tr>
             	<th>
@@ -32,7 +32,7 @@
 					Время прихода
 				</th>
                 <th>
-					<button onclick="imgOpen3()">
+					<button onclick="imgOpen3()" class="img-all">
 						<img src="../static/img/north_black_24dp.svg" class="img_sort2">
 						<img src="../static/img/south_black_24dp.svg" class="img_sort_open2" style="display: none">
 					</button>
@@ -65,7 +65,7 @@
 
 
         	{% for log in logs %}
-        		<tr class="tr">
+        		<tr class="tr" ng-repeat="Item in campaign.campaignList">
         			<td style="text-align: left">{{log['name']}}</td>
         			{% if log['time_in'] == '-' %}
         			<td>-</td>
@@ -81,7 +81,6 @@
                     <td>{{log['formatted_time']}}</td>
 					<td style="display: none;">{{log['total_time']}}</td>
                     <td>{{log['normative']}} %</td>
-
         		</tr>
         	{% endfor %}
 

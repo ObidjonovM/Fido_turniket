@@ -2,6 +2,8 @@ from app import db
 from app import utils
 from datetime import datetime
 from sys import exc_info
+from .department import Department
+from .job import Job
 
 
 class Employee(db.Model):
@@ -10,19 +12,20 @@ class Employee(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True, nullable=False)
     birth_date = db.Column(db.Date, nullable=False)
-    department = db.Column(db.String(150), nullable=False)
-    job = db.Column(db.String(50), nullable=False)
+    department_id = db.Column(db.Integer, db.ForeignKey("departments.id"))
+    job_id = db.Column(db.Integer, db.ForeignKey("jobs.id"))
     photo = db.Column(db.Text, nullable=False)
     date_added = db.Column(db.DateTime, nullable=False)
     date_modified = db.Column(db.DateTime, nullable=False)
     active = db.Column(db.Boolean, default=True, nullable=False)
+    job_id_old = db.Column(db.Integer)
+    department_id_old = db.Column(db.Integer)
 
-
-    def __init__(self, name, birth_date, department, job, photo):
+    def __init__(self, name, birth_date, department_id, job_id, photo):
         self.name = name
         self.birth_date = birth_date
-        self.department = department
-        self.job = job
+        self.department_id = department_id
+        self.job_id = job_id
         self.photo = photo
         now = datetime.today()
         self.date_added = now
@@ -30,17 +33,18 @@ class Employee(db.Model):
 
 
     def __repr__(self):
-        return f"Customer Id = {self.id} : {self.name} - {self.department} - {self.job}"
+        return f"Customer Id = {self.id} : {self.name} - {self.department_id} - {self.job_id}"
 
 
     @staticmethod
     def add2EmployeeTable(cust_info):
         try:
             fullname = utils.make_fullname(cust_info['fname'],
-            cust_info['lname'], cust_info['mname'])
+                cust_info['lname'], cust_info['mname'])
             new_emp = Employee(fullname, 
             datetime.strptime(cust_info['birthDate'], '%Y-%m-%d'),
-            cust_info['dept'], cust_info['job'], cust_info['jpeg_base64'])
+            cust_info['dept_id'],cust_info['job_id'], 
+            cust_info['jpeg_base64'])
             db.session.add(new_emp)
 
         except:
@@ -61,10 +65,37 @@ class Employee(db.Model):
 
 
     @staticmethod
+    def AllEmployees():
+        records = {}
+        try:
+            records = db.session.query(Employee, Department, Job). \
+            filter(Employee.department_id == Department.id, Employee.job_id == Job.id, Employee.active == True). \
+            order_by(Department.name, Employee.name).all()
+        except:
+            print("Failed to query to the table")
+
+        return records
+    
+    
+    @staticmethod
+    def EmployeesByDeptId(dept_id):
+        records = {}
+        try:
+            records = db.session.query(Employee, Department, Job). \
+            filter(Employee.department_id == Department.id, Employee.job_id == Job.id, Employee.active == True). \
+            filter_by(department_id = dept_id). \
+            order_by(Department.name, Employee.name).all()
+        except:
+            print("Failed to query to the table")
+
+        return records
+
+
+    @staticmethod
     def getAllClientNames():
         employees = {}
         try:
-            records = Employee.query.with_entities(Employee.id, Employee.name).filter_by(active=True).all()
+            records = Employee.query.with_entities(Employee.id, Employee.name).all()
             for r in records:
                 employees[r[0]] = r[1]
 
@@ -96,9 +127,9 @@ class Employee(db.Model):
         ).filter_by(id=client_id).first()
 
 
+
     @staticmethod
     def removeFromEmployeeTable(emp):
-        # Removes permanently from the database. 
         try:
             db.session.delete(emp)
         except:
@@ -123,8 +154,8 @@ class Employee(db.Model):
             emp_old = emp
             emp.name = utils.make_fullname(form['fname'], form['lname'], form['mname'])
             emp.birth_date = form['birthDate']
-            emp.department = form['dept']
-            emp.job = form['job']
+            emp.department_id = form['dept_id']
+            emp.job_id = form['job_id']
             old_photo = utils.extract_base64(emp.photo)
             emp.photo = form['jpeg_base64']
             emp.date_modified = datetime.today()

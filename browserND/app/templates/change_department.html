@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+
+<link rel="stylesheet" href="/static/css/change_department.css">
+
+{% endblock %}
+
+{% block body %}
+
+{{ super() }}
+
+<form method="POST" action ="{{url_for('view.change_department', dept_id = department['id'])}}">
+    <input type="hidden" name="dept_id" value="{{department['id']}}">
+
+    <label for="name">Департаменты</label>
+    <textarea name="name" id="name">{{department['name']}}</textarea>
+
+    <input type="submit" value="Сохранить">
+    <a href="{{url_for('view.all_departments')}}">Отмена</a>
+</form>
+
+<script src="/static/js/change_department.js"></script>
+{% endblock  %}

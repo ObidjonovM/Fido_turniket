@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" href="static/css/all_departments.css">
+{% endblock %}
+
+{% block body %}
+
+{{ super() }}
+
+<div class="otmen-and-add">
+    <a href="{{url_for('view.index')}}">Назад</a>
+    <a href="{{url_for('view.add_user')}}">Добавить</a>
+</div>
+
+<div class="employees_container">
+    <table id="dataTable">
+
+        <tr class="thead" style="pointer-events: none">
+            <th>№</th>
+            <th>Название</th>
+            <th>Роль</th>
+            <th>Действие</th>
+        </tr>
+
+        {% for i in range(users|length) %}
+        <tr class="tr">
+            <td>{{i+1}}</td>
+            <td>{{users[i][0]['login']}}</td>
+            <td>{{users[i][1]['name']}}</td>
+            <td>
+                <a href="{{url_for('view.change_user', user_id=users[i][0]['id'])}}">Изменить</a>
+                <button onclick="deleteUser(this)" id="{{users[i][0]['id']}}">Удалить</button>
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</div>
+
+<script src="/static/js/all_users.js"></script>
+{% endblock %}

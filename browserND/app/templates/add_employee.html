@@ -10,32 +10,54 @@
 
 {{ super() }}
 <div class="emp_info">
-	<div class="form_info">
-		<form action="{{url_for('view.add_employee')}}" id="user_info" method="post" enctype="multipart/form-data">
-			<label for="fname">Имя</label>
-			<input type="text" name="fname" required>
-			<label for="mname">Отчество</label>
-			<input type="text" name="mname" required>
-			<label for="lname">Фамилия</label>
-			<input type="text" name="lname" required>
+
+    <div class="video_stream">
+        <video id="video">Video stream not available</video>
+        <canvas id="canvas"></canvas>
+        <img src="" id="photo" alt="Employee's image" form="user_info" name="photo">
+        <div class="video_buttons">
+            <input type="button" id="take_photo" value="Фотографировать">
+            <label for="upload_photo" class="upload_photo">Выберите файл</label>
+            <input type="file" id="upload_photo" name="upload_photo">
+        </div>
+    </div>
+
+    <div class="form_info">
+        <form action="{{url_for('view.add_employee')}}" id="user_info" method="post" enctype="multipart/form-data">
+            <label for="fname">Имя</label>
+            <input type="text" name="fname" id="fname" required>
+
+            <label for="mname">Отчество</label>
+            <input type="text" name="mname" id="mname" required>
+
+            <label for="lname">Фамилия</label>
+            <input type="text" name="lname" id="lname" required>
+
             <label for="birthDate">Дата Рождения</label>
-            <input name="birthDate" type="date" required>
-			<label for="dept">Отдел</label>
-			<input type="text" name="dept" required>
-			<label for="job">Должность</label>
-			<input type="text" name="job" required>
-			<input type="submit" id="submit" value="Добавить">
-			<input type="text" name="jpeg_base64" id="jpeg_base64">
-		</form>
-	</div>
-		<video id="video">Video stream not available</video>
-		<canvas id="canvas"></canvas>
-		<img src="" id="photo" alt="Employee's image" form="user_info" name="photo">
-	<div class="video_buttons">
-		<input type="button" id="take_photo" value="Фотографировать">
-		<label for="upload_photo" class="upload_photo">Выберите файл</label>
-		<input type="file" id="upload_photo" name="upload_photo">
-	</div>
+            <input name="birthDate" type="date" id="birthDate" required>
+
+            <label for="dept_id">Отдел</label>
+            <select name="dept_id" id="dept_id" required>
+                <option hidden value="" selected disabled>--Выбрать--</option>
+                {% for i in range(departments|length)%}
+                <option value="{{departments[i][0]}}">{{departments[i][1]}}</option>
+                {%endfor%}
+            </select>
+
+            <label for="job_id">Должность</label>
+            <select name="job_id" id="job_id" required>
+                <option hidden value="" selected disabled>--Выбрать--</option>
+                {% for i in range(jobs|length)%}
+                <option value="{{jobs[i][0]}}">{{jobs[i][1]}}</option>
+                {%endfor%}
+            </select>
+
+            <input type="submit" id="submit" value="Добавить">
+            <input type="text" name="jpeg_base64" id="jpeg_base64">
+        </form>
+    </div>
+
 </div>
+
 <script src="static/js/camera.js"></script>
 {% endblock %}

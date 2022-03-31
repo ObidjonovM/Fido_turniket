@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{{ super() }}
+<link rel="stylesheet" href="/static/css/update_employee.css">
+
+{% endblock %}
+
+{% block body %}
+
+{{ super() }}
+
+<a href="{{url_for('view.all_employees')}}" class="employees">Сотрудники</a>
+
+<div class="emp_info">
+
+    <div class="video_stream">
+        <video id="video">Video stream not available</video>
+        <canvas id="canvas"></canvas>
+        <img src="" id="photo" alt="Employee's image" form="user_info" name="photo">
+        <div class="video_buttons">
+            <input type="button" id="take_photo" value="Фотографировать">
+            <label for="upload_photo" class="upload_photo">Выберите файл</label>
+            <input type="file" id="upload_photo" name="upload_photo">
+        </div>
+    </div>
+
+    <div class="form_info">
+        <form action="{{url_for('view.update_employee', emp_id=employee['id'])}}" id="user_info" method="post"
+              enctype="multipart/form-data">
+
+            <input type="hidden" name="custId" value="{{employee['id']}}">
+
+            <label for="fname">Имя</label>
+            <input type="text" name="fname" id="fname" value="{{employee['fullname']['fname']}}" required>
+
+            <label for="mname">Отчество</label>
+            <input type="text" name="mname" id="mname" value="{{employee['fullname']['mname']}}" required>
+
+            <label for="lname">Фамилия</label>
+            <input type="text" name="lname" id="lname" value="{{employee['fullname']['lname']}}" required>
+
+            <label for="birthDate">Дата Рождения</label>
+            <input name="birthDate" type="date" id="birthDate" value="{{employee['birthDate']}}" required>
+
+            <label for="dept_id">Отдел</label>
+            <select name="dept_id" id="dept_id" required>
+                {% for i in range(departments|length)%}
+                {%if departments[i][0] == employee['dept_id']%}
+                <option selected value="{{departments[i][0]}}">
+                    {{departments[i][1]}}
+                </option>
+                {%else%}
+                <option value="{{departments[i][0]}}">
+                    {{departments[i][1]}}
+                </option>
+                {%endif%}
+                {%endfor%}
+            </select>
+
+            <label for="job_id">Должность</label>
+            <select name="job_id" id="job_id" required>
+                {% for i in range(jobs|length)%}
+                {%if jobs[i][0] == employee['job_id']%}
+                <option selected value="{{jobs[i][0]}}">
+                    {{jobs[i][1]}}
+                </option>
+                {%else%}
+                <option value="{{jobs[i][0]}}">
+                    {{jobs[i][1]}}
+                </option>
+                {%endif%}
+                {%endfor%}
+            </select>
+
+            <input type="submit" id="submit" value="Добавить">
+            <input type="text" name="jpeg_base64" id="jpeg_base64">
+        </form>
+    </div>
+</div>
+
+
+<script src="/static/js/camera.js"></script>
+
+{% endblock%}

@@ -1,23 +1,66 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}
 
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="cache-control" content="no-cache">
+
+    <title>Fido Entrance Greet</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/index.css">
+
+    {% endblock %}
+</head>
+<body>
 {% block body %}
-{{ super() }}
+<div class="main_menu">
+    <div class="main-page">
+        <a href="{{url_for('view.index')}}">Главная страница</a>
+    </div>
+    <div class="hi-person-logOut">
+        <div>
+            <span>Привет</span><br>
+            <span>{{login}}</span>
+        </div>
+        <a href="{{url_for('view.logout')}}">Выйти</a>
+    </div>
+</div>
+<div class="logodiv">
+    <img class="logo" src="/static/img/fido_logo.svg">
+</div>
 
 <div class="center">
-	{% if main_user == True %}
+    {% if role_id != 4 %}
+    {% if role_id < 3: %}
     <a href="{{url_for('view.add_employee')}}">Добавить нового сотрудника</a>
     <a href="{{ url_for('view.all_employees') }}">Сотрудники</a>
     <a href="{{ url_for('view.logs') }}">Логи</a>
-    <a href="{{url_for('view.change_password')}}">Изменить пароль</a>
-    <a href="{{url_for('view.add_user')}}">Добавить пользователя</a>
-    <a href="{{url_for('view.remove_user')}}">Удалить пользователя</a>
-    <a href="{{url_for('view.entrance_new')}}">Вход в здание</a>
+    <a href="{{url_for('view.change_password')}}">Изменить свой пароль</a>
+    <a href="{{url_for('view.all_users')}}">Пользователи</a>
+    <a href="{{url_for('view.all_departments')}}">Департаменты</a>
+    <a href="{{url_for('view.all_jobs')}}">Должности</a>
+
     {% else %}
-    <a href="{{url_for('view.change_password')}}">Изменить пароль</a>
+    <a href="{{url_for('view.change_password')}}">Изменить свой пароль</a>
     <a href="{{ url_for('view.all_employees') }}">Сотрудники</a>
+    {% if job_id ==2 %}
     <a href="{{ url_for('view.logs') }}">Логи</a>
-    <a href="{{url_for('view.entrance_new')}}">Вход в здание</a>
+    {% endif %}
+    {% endif %}
+    {% endif %}
+
+    {% if (role_id == 1 or role_id == 4) or (job_id == 2 and role_id == 3) %}
+    <a href="{{url_for('view.entrance')}}">Вход в здание</a>
     {% endif %}
 </div>
 
+
+<script src="/static/js/base.js"></script>
 {% endblock %}
+</body>
+</html>

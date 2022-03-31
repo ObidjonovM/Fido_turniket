@@ -31,7 +31,7 @@
                 <input type="radio" class="radiobtn" id="all_in_out" name="log_settings" value="1">
                 <label for="all_in_out">Все входы и выходы в течении дня</label>
             </div>
-            {% if main_user == True%}
+            {% if role_id < 3 %}
                 <div>
                     <input type="radio" class="radiobtn" id="all_records" name="log_settings" value="2">
                     <label for="all_records">Показать все детали</label>

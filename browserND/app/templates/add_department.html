@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{{ super() }}
+
+<link rel="stylesheet" href="/static/css/add_department.css">
+
+{% endblock %}
+
+{% block body %}
+
+{{ super() }}
+
+<form method="POST" action="{{url_for('view.add_department')}}">
+
+    <label for="name">Департаменты</label>
+    <textarea name="name" id="name"></textarea>
+
+    <input type="submit" value="Добавить">
+    <a href="{{url_for('view.all_departments')}}">Отмена</a>
+</form>
+
+<script src="/static/js/add_department.js"></script>
+{% endblock  %}

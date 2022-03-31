@@ -1,0 +1,90 @@
+.logo {
+    display: block;
+    margin-top: 1%;
+    width: 22%;
+    min-width: 300px;
+}
+
+.main_menu {
+    background-color: rgb(82, 75, 74);
+}
+
+.logodiv {
+    width: 99.9%;
+    height: 180px;
+    position: fixed;
+    top: -3%;
+    left: 50%;
+    transform: translate(-50%, 50%);
+    background-color: rgb(82, 75, 74);
+}
+
+.employees_container {
+    padding: 0;
+    margin: 0 auto;
+    width: 90%;
+    height: auto;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    z-index: -1;
+}
+
+table {
+    padding: 0;
+    width: 100%;
+    display: table;
+}
+
+
+.thead {
+    position: sticky;
+    top: 25%;
+    left: 0;
+    width: 100%;
+    height: 47px;
+    z-index: 10000;
+    padding: 10px;
+    text-align: center;
+
+
+}
+
+.thead th{
+    position: sticky;
+    top: 25%;
+    left: 0;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #e0dada;
+    border: 1px solid black;
+    background-color: rgb(35, 33, 33);
+    z-index: 100000;
+}
+
+
+.tr:hover {
+    background-color: rgba(46, 46, 46, 0.979);
+}
+
+.tr {
+    border: 1px solid black;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 400;
+}
+
+.tr td {
+    border: 1px solid black;
+    color: white;
+}
+
+.tr td > a {
+    background-color: transparent;
+    display: block;
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+    font-weight: normal;
+}

@@ -3,7 +3,7 @@
 {% block head %}
 {{ super() }}
 
-<link rel="stylesheet" href="static/css/add_user.css">
+<link rel="stylesheet" href="/static/css/add_user.css">
 
 {% endblock %}
 
@@ -12,13 +12,33 @@
 {{ super() }}
 
 <form method="POST">
-    <label for="username">Пользователь</label>
-    <input type="text" name="username" required>
-    <label for="password">Пароль</label>
-    <input type="password" name="password" required>
-    <label for="confirm_password">Подтвердить Пароль</label>
-    <input type="password" name="confirm_password" required>
+
+    <input type="hidden" id="hidden_dept_id" name="dept_id" value="">
+    <input type="hidden" id="hidden_job_id" name="job_id" value="">
+
+
+    <label for="emp_id">Сотрудник</label>
+    <select name="emp_id" id="emp_id" required onchange="getOptionValue1(this)">
+        <option hidden value="" selected disabled>--Выбрать--</option>
+        {% for i in range(employees|length)%}
+        <option value="{{employees[i][0]['id']}}" dept_id="{{employees[i][1]['id']}}" job_id="{{employees[i][2]['id']}}" class="option_value">{{employees[i][0]['name']}}</option>
+        {%endfor%}
+    </select>
+
+    <label for="login">Логин</label>
+    <input type="text" id="login" name="login" value="">
+
+    <label for="role_id">Роль</label>
+    <select name="role_id" id="role_id" required>
+        <option hidden value="" selected disabled>--Выбрать--</option>
+        {% for i in range(roles|length)%}
+        <option value="{{roles[i][0]}}">{{roles[i][1]}}</option>
+        {%endfor%}
+    </select>
+
     <input type="submit" value="Добавить">
+    <a href="{{url_for('view.all_users')}}">Отмена</a>
 </form>
 
+<script src="/static/js/add_user.js"></script>
 {% endblock  %}
