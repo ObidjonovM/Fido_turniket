@@ -36,16 +36,6 @@ function addDateLogs(resp) {
 
 /** tableda kunlik kirgan chiqgan soatlarni chizish close **/
 
-/** get_employeesga o'tish uchun open**/
-
-function  getEmployees(e) {
-    window.open('/get_employee/' + e.children[0].innerHTML, '_self');
-}
-
-/** get_employeesga o'tish uchun close**/
-
-
-
 /** excel da tableni dounloud qilish open**/
 
 function ExportToExcel(type, fn, dl) {

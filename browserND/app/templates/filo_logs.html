@@ -11,7 +11,7 @@
 {% block body %}
 
 {{ super() }}
-<input type="button" id="btnExportToCsv" onclick="exceller()" value="Получить в EXCEL">
+<input type="button" id="btnExportToCsv" onclick="exceller('xlsx')" value="Получить в EXCEL">
 
 <div class="table_wrapper">
     <table id="toExcel">
@@ -51,7 +51,7 @@
 						<img src="../static/img/north_black_24dp.svg" class="img_sort4">
 						<img src="../static/img/south_black_24dp.svg" class="img_sort_open4" style="display: none">
 					</button>
-					Normative
+					Процент занятости hidden
 				</th>
 
 				<th >
@@ -59,7 +59,7 @@
 						<img src="../static/img/north_black_24dp.svg" class="img_sort4">
 						<img src="../static/img/south_black_24dp.svg" class="img_sort_open4" style="display: none">
 					</button>
-					Normative
+					Процент занятости
 				</th>
             </tr>
 
@@ -87,6 +87,7 @@
 	</table>
 </div>
 
+<script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
 <script src="/static/js/get_csv.js"></script>
 <script src="/static/js/filo_logs.js"></script>
 

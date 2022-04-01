@@ -1,12 +1,28 @@
 .logo {
     display: block;
     margin-top: 1%;
-    width: 22%;
+    width: 20%;
     min-width: 300px;
 }
 
 .main_menu {
     background-color: #353535;
+}
+
+.choose-date-input {
+    top: 8.4rem;
+    position: fixed;
+    right: 5rem;
+    font-size: 1.2rem;
+    width: 330px;
+}
+
+.choose-date-input input {
+    width: 250px
+}
+
+.choose-date-input label {
+    display: block;
 }
 
 .logodiv {
@@ -102,11 +118,16 @@ table {
     text-align: center;
 }
 
-@media only screen and (max-width: 1370px) {
+
+@media only screen and (min-width: 1000px) and (max-width: 1600px) {
     .search-input {
-        left: 5rem;
+        width: 24rem;
+        left: 5rem!important;
     }
 
+    #btnExportToCsv {
+        left: 45rem;
+    }
 }
 
 .thead th {
@@ -131,13 +152,17 @@ table {
     border: transparent;
 }
 
-.tr td:nth-child(2) {
+.tr td:nth-child(1) {
     background-color: rgb(45, 43, 43);
     padding: 12px;
 }
 
 
 .tr:hover {
+    background-color: rgba(46, 46, 46, 0.98);
+}
+
+.tr:hover a {
     background-color: rgba(46, 46, 46, 0.98);
 }
 
@@ -151,17 +176,21 @@ table {
 .tr td {
     border: 1px solid black;
     color: white;
-    padding: 12px 12px;
-    cursor: pointer;
+    padding: 15px 20px;
 }
 
 .tr td > a {
-    background-color: transparent;
-    display: block;
-    width: 100%;
-    margin: 0;
+    padding: 0;
+    font-size: 1rem;
+    margin: 5px;
+    width: auto;
     border-radius: 0;
     font-weight: normal;
+    background-color: rgb(82, 75, 74);
+}
+
+.tr td > a:hover {
+    background-color: rgba(46, 46, 46, 0.98);
 }
 
 .thead th button {

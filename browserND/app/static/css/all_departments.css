@@ -5,17 +5,13 @@
     min-width: 300px;
 }
 
-.main_menu {
-    background-color: rgb(82, 75, 74);
-}
-
 .logodiv {
-    width: 99.9%;
-    height: 180px;
+    width: 100%;
+    height: 224px;
     position: fixed;
-    top: -3%;
+    top: -9px;
     left: 50%;
-    transform: translate(-50%, 50%);
+    transform: translate(-50%, 32%);
     background-color: rgb(82, 75, 74);
 }
 
@@ -108,7 +104,7 @@ table {
     width: 100%;
     justify-content: center;
     align-items: center;
-    top: 10rem;
+    top: 11rem;
 }
 
 .otmen-and-add a {
