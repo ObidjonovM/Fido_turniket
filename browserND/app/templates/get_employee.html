@@ -148,7 +148,6 @@
     const startDate = document.getElementById("start_date");
     const endDate = document.getElementById("end_date");
 
-
     function compareEndDate(e) {
 
         if (startDate.value != "" && startDate.value > e.value) {
@@ -167,7 +166,6 @@
             e.value = '';
         }
     }
-
 
     let xhttp = new XMLHttpRequest();
     let url = window.location.href;
@@ -274,7 +272,7 @@
                                     <th>Время</th>
                                     <th>Действия</th>
                                     <th>Лог ID</th>
-                                    </tr>`
+                                    </tr>`;
                     table.innerHTML = row;
 
                     for (let i = 0; i < resp['inouts']['inouts'].length; i++) {
@@ -290,7 +288,7 @@
                                     <td>${addZero(year)+"-" + monthName[month] + "-" + addZero(day) + " " + addZero(hours)}</td>
                                     <td>${resp['inouts']['inouts'][i][1]}</td>
                                     <td>${resp['inouts']['inouts'][i][2]}</td>
-                                    </tr>`
+                                    </tr>`;
                         table.innerHTML += row
                     }
                 }
