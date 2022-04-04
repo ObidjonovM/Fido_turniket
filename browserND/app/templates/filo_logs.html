@@ -45,15 +45,7 @@
 					</button>
 					Общее время в офисе
 				</th>
-
-				<th style="display: none">
-					<button onclick="imgOpen5()">
-						<img src="../static/img/north_black_24dp.svg" class="img_sort4">
-						<img src="../static/img/south_black_24dp.svg" class="img_sort_open4" style="display: none">
-					</button>
-					Процент занятости hidden
-				</th>
-
+                
 				<th >
 					<button onclick="imgOpen5()">
 						<img src="../static/img/north_black_24dp.svg" class="img_sort4">
@@ -67,19 +59,21 @@
         	{% for log in logs %}
         		<tr class="tr" ng-repeat="Item in campaign.campaignList">
         			<td style="text-align: left">{{log['name']}}</td>
+
         			{% if log['time_in'] == '-' %}
         			<td>-</td>
         			{% else %}
-        			<td>{{log['time_in']|get_date}}&nbsp;{{log['time_in']|get_time}}</td>
+					<td>{{log['time_in']|get_date}}&nbsp;{{log['time_in']|get_time}}</td>
         			{% endif %}
-        			{% if log['time_out'] == '-' %}
+
+					{% if log['time_out'] == '-' %}
         			<td>-</td>
         			{% else %}
         			<td>{{log['time_out']|get_date}}&nbsp;{{log['time_out']|get_time}}</td>
         			{% endif %}
-                    <td style="display: none;">{{log['total_time']}}</td>
+
                     <td>{{log['formatted_time']}}</td>
-					<td style="display: none;">{{log['total_time']}}</td>
+
                     <td>{{log['normative']}} %</td>
         		</tr>
         	{% endfor %}

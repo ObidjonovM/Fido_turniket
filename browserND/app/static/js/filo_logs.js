@@ -88,7 +88,7 @@ function imgOpen5() {
 const getCellValue = (tr, idx) => tr.children[idx].innerText || tr.children[idx].textContent;
 
 const comparer = (idx, asc) => (a, b) => ((v1, v2) =>
-        v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : ((v1 == '-') != (v2 == '-') ? (asc == true ? (v1 == '-' && v2 != '-' ? 1 : -1) : (v1 == '-' && v2 != '-' ? -1 : 1)) : v1.toString().localeCompare(v2))
+        v1 !== '' && v2 !== '' && !isNaN(v1) && !isNaN(v2) ? v1 - v2 : ((v1 == '-') != (v2 == '-') ? (asc == true ? (v1 == '-' && v2 != '-' ? 1 : -1) : (v1 == '-' && v2 != '-' ? -1 : 1)) : (asc == true ? v1.toString().localeCompare(v2, undefined, {numeric: true, sensitivity: 'base'}) : (!v1.toString().localeCompare(v2, undefined, {numeric: true, sensitivity: 'base'}) ? -1 : 1)))
 )(getCellValue(asc ? a : b, idx), getCellValue(asc ? b : a, idx));
 
 document.querySelectorAll('th').forEach(th => th.children[0] ? th.children[0].addEventListener('click', (() => {
