@@ -571,11 +571,11 @@ def add_job(form):
 
 
 def change_job(form):
-    Job = None
+    job = None
     try:
-        Job = Job.query.filter_by(id=form['job_id']).first()
-        Job.name = form['name']
-        db.session.add(Job)
+        job = Job.query.filter_by(id=form['job_id']).first()
+        job.name = form['name']
+        db.session.add(job)
         db.session.commit()
         return {
             'status_code' : 0,
@@ -856,7 +856,11 @@ def split_logs_into_days(inout_logs):
             prevDT = daily_logs[-1][0]            # previous datetime
             if prevDT.day == currDT.day:
                 if currDT.hour >= 4:            # start counting from 4 AM
-                    daily_logs.append(io_log)
+                    if prevDT.hour < 4:
+                        split_io_logs.append(daily_logs)
+                        daily_logs = [io_log]
+                    else:
+                        daily_logs.append(io_log)
             else:
                 if currDT.hour < 4:             # stops counting at 3:59:59 AM
                     daily_logs.append(io_log)
