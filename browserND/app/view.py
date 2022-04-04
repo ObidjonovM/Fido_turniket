@@ -636,14 +636,12 @@ def happybirthday():
 
 @views_blueprint.route("/get_all_encodings", methods=['POST'])
 def get_all_encodings():
-    if 'role_id' in session:
-        return control.get_all_encodings()
+    return control.get_all_encodings()
 
 
 @views_blueprint.route("/get_all_extra_encodings", methods=['POST'])
 def get_all_extra_encodings():
-    if 'role_id' in session:
-        return control.get_all_extra_encodings()
+    return control.get_all_extra_encodings()
 
 
 @views_blueprint.route("/get_current_weather", methods=['POST'])
