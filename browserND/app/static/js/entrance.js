@@ -164,7 +164,7 @@ window.addEventListener("load", function () {
             }
         });
 
-        xhr.open("POST", "https://10.50.50.212:5080/get_current_weather");
+        xhr.open("POST", "http://api.openweathermap.org/data/2.5/weather?q=Tashkent,Uzbekistan&APPID=87ea10a19e895caef5319978b09d9bb6&lang=ru&units=metric", true);
         xhr.send();
     }
     window.addEventListener("load", getTempTek());
@@ -209,7 +209,7 @@ window.addEventListener("load", function () {
             }
         });
 
-        xhr.open("POST", "https://10.50.50.212:5080/get_three_day_weather");
+        xhr.open("POST", "http://api.weatherapi.com/v1/forecast.json?key=eb2d3032f2a14fe089655010212408&q=Tashkent&days=3&aqi=no&alerts=no&lang=ru", true);
         xhr.send();
     }
     window.addEventListener("load", getTempAll());
